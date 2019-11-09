@@ -1,0 +1,248 @@
+/*                  */
+/* Create Plan Page */
+/*                  */
+
+.leftmain {
+    padding-left: 170px; /* Supposed to be 70px from the sidebar */
+}
+
+#createplan {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 25px;
+    padding-left: 20px;
+    padding-top: 15px;
+}
+
+#preflight {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 20px;
+    padding-left: 40px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+#postflight {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 20px;
+    padding-left: 40px;
+    padding-top: 0px;
+    padding-bottom: 25px;
+    margin-top: -5px;
+}
+
+.inputType1 { /* Half of a row */
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 17.26px;
+    width: 230px;
+    height: 45px;
+    border-radius: 25px;
+    border: 2px solid #232323;
+    outline: none;
+    background-color: #161616;
+    text-indent: 25px;
+    font-weight: bold;
+    margin-right: 35px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+}
+
+.inputType2 { /* One thirds of a row */
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 17.26px;
+    width: 140px;
+    height: 45px;
+    border-radius: 25px;
+    border: 2px solid #232323;
+    outline: none;
+    background-color: #161616;
+    text-indent: 25px;
+    font-weight: bold;
+    margin-right: 35px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+}
+
+.inputType3 { /* Two thirds of a row */
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 17.26px;
+    width: 320px;
+    height: 45px;
+    border-radius: 25px;
+    border: 2px solid #232323;
+    outline: none;
+    background-color: #161616;
+    text-indent: 25px;
+    font-weight: bold;
+    margin-right: 35px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+}
+
+.inputType4 { /* Route */
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 17.26px;
+    width: 450px; /* Deduction from padding of 25px x 2 */
+    height: 23px; /* Deduction from padding of 16px x 2 */
+    border-radius: 25px;
+    border: 2px solid #232323;
+    outline: none;
+    background-color: #161616;
+    font-weight: bold;
+    margin-right: 35px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    resize: none;
+    padding: 16px 25px 16px 25px;
+}
+
+.inputType5 { /* Remarks */
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 17.26px;
+    width: 450px;
+    height: 23px;
+    border-radius: 25px;
+    border: 2px solid #232323;
+    outline: none;
+    background-color: #161616;
+    font-weight: bold;
+    margin-right: 35px;
+    margin-bottom: 25px;
+    resize: none;
+    padding: 16px 25px 16px 25px;
+}
+
+::-webkit-input-placeholder {
+    text-transform: initial;
+}
+ 
+:-moz-placeholder { 
+    text-transform: initial;
+}
+ 
+::-moz-placeholder {  
+    text-transform: initial;
+}
+
+:-ms-input-placeholder { 
+    text-transform: initial;
+}
+
+.rightmain {
+    padding-left: 813px; /* Supposed to be 70px from the sidebar */
+    margin-top: -947px;
+}
+
+#flightdetails {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 25px;
+    padding-top: 15px;
+}
+
+#fleettext {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 20px;
+    padding-left: 65px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.fleetbox {
+    border-radius: 25px;
+    border: 2px solid #232323;
+    width: 1000px;
+    height: 600px;
+    margin-left: 27px;
+}
+
+#METARtext {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 20px;
+    padding-left: 65px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.METARDep {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 17px;
+    padding-top: 13px;
+    margin-left: -80px;
+    position: absolute;
+}
+
+.METARArr {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 17px;
+    padding-top: 13px;
+    margin-left: -50px;
+    position: absolute;
+}
+
+.METARbox {
+    border-radius: 25px;
+    border: 2px solid #232323;
+    width: 775px;
+    height: 33px;
+    margin-left: 27px;
+    margin-bottom: 30px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 17.26px;
+    font-weight: bold;
+    padding-left: 25px;
+    padding-top: 12px;
+    /* overflow: auto; */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.Fetch {
+    border-radius: 25px;
+    border: 2px solid #232323;
+    background-color: #161616;
+    width: 160px;
+    height: 33px;
+    margin-left: 870px;
+    margin-top: -80px;
+    padding-top: 13px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 15.5px;
+    text-align: center;
+    cursor: pointer;
+    position: absolute;
+}
+
+.NewButton {
+    border-radius: 25px;
+    border: 2px solid #232323;
+    background-color: #161616;
+    width: 160px;
+    height: 33px;
+    margin-left: 870px;
+    margin-top: -80px;
+    padding-top: 13px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    position: absolute;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+}

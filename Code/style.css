@@ -1,0 +1,41 @@
+body {
+    background-color: #161616;
+}
+
+/*                */
+/* Side Nav Stuff */
+/*                */
+
+.sidenav {
+    height: 100%;
+    width: 100px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    background-color: #1e1e1e;
+    box-shadow: 5px 0px 10px -5px black;
+}
+
+.sidenavImages {
+    text-align: center;
+    position: inherit;
+    top: 8px;
+    margin-top: 25px;
+}
+
+.sidenavText {
+    margin-top: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    text-align: center;
+    color: white;
+}
+
+.sidenavElement {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 80px;
+    cursor: pointer;
+}
