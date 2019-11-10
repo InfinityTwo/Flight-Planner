@@ -30,6 +30,7 @@ $(document).ready(function() {
     )
 
     $(document).click(function(event) {
+        console.log(typeof lastClicked)
         if (outsideClick == true && lastClicked != NaN) {
             lastClicked.stop().animate({"borderTopColor": "2px solid #232323", "borderLeftColor": "2px solid #232323", "borderRightColor": "2px solid #232323", "borderBottomColor": "2px solid #232323"}, 100);
             if (lastClicked[0] == document.getElementById("Cruise")) {
@@ -50,7 +51,7 @@ $(document).ready(function() {
     })
 
     // event handler of hovering fetch and new plan
-    $(".Fetch, .NewButton").hover(
+    $(".FetchMETAR, .NewButton, #FetchSB").hover(
         function() {
             $(this).animate({"background-color": "#232323"}, 125);
         }, function() {
@@ -78,7 +79,7 @@ $(document).ready(function() {
         document.getElementById("Date").value = date;
     })
 
-    $(".Fetch").click(function() {
+    $(".FetchMETAR").click(function() {
         var Departure = document.getElementById("Departure").value
         var Arrival = document.getElementById("Arrival").value
         if (Departure.length >= 3 && Arrival.length >= 3) {
@@ -161,4 +162,58 @@ $(document).ready(function() {
             return;
         };
     })
+
+    $("#FetchSB").click(function() {
+        $.get("https://www.simbrief.com/api/xml.fetcher.php?username=InFInItyKiLL33").done(function(data) {
+            // console.log(data); //used for testing only
+            if (document.getElementById("Departure").value != data.getElementsByTagName("origin")[0].childNodes[0].nextSibling.innerHTML) {
+                document.getElementById("Departure").value = data.getElementsByTagName("origin")[0].childNodes[0].nextSibling.innerHTML;
+            }
+            if (document.getElementById("Arrival").value != data.getElementsByTagName("destination")[0].childNodes[0].nextSibling.innerHTML) {
+                document.getElementById("Arrival").value = data.getElementsByTagName("destination")[0].childNodes[0].nextSibling.innerHTML;
+            }
+            if (document.getElementById("Date").value.length == 0) {
+                var date = new Date();
+                date = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+                document.getElementById("Date").value = date;
+            }
+            if (document.getElementById("FlightNum").value != data.getElementsByTagName("general")[0].childNodes[2].nextSibling.innerHTML + data.getElementsByTagName("general")[0].childNodes[4].nextSibling.innerHTML) {
+                document.getElementById("FlightNum").value = data.getElementsByTagName("general")[0].childNodes[2].nextSibling.innerHTML + data.getElementsByTagName("general")[0].childNodes[4].nextSibling.innerHTML;
+            }
+            if (document.getElementById("Cruise").value != data.getElementsByTagName("general")[0].childNodes[26].nextSibling.innerHTML) {
+                document.getElementById("Cruise").value = data.getElementsByTagName("general")[0].childNodes[26].nextSibling.innerHTML;
+            }
+            if (document.getElementById("CI").value != data.getElementsByTagName("general")[0].childNodes[14].nextSibling.innerHTML.slice(2)) {
+                document.getElementById("CI").value = data.getElementsByTagName("general")[0].childNodes[14].nextSibling.innerHTML.slice(2);
+            }
+            if (document.getElementById("Fuel").value != data.getElementsByTagName("fuel")[0].childNodes[18].nextSibling.innerHTML + "/" + String(parseInt(data.getElementsByTagName("fuel")[0].childNodes[4].nextSibling.innerHTML) + parseInt(data.getElementsByTagName("fuel")[0].childNodes[6].nextSibling.innerHTML) + parseInt(data.getElementsByTagName("fuel")[0].childNodes[8].nextSibling.innerHTML))) {
+                document.getElementById("Fuel").value = data.getElementsByTagName("fuel")[0].childNodes[18].nextSibling.innerHTML + "/" + String(parseInt(data.getElementsByTagName("fuel")[0].childNodes[4].nextSibling.innerHTML) + parseInt(data.getElementsByTagName("fuel")[0].childNodes[6].nextSibling.innerHTML) + parseInt(data.getElementsByTagName("fuel")[0].childNodes[8].nextSibling.innerHTML));
+            }
+            if (document.getElementById("Winds").value != data.getElementsByTagName("general")[0].childNodes[36].nextSibling.innerHTML + "/" + data.getElementsByTagName("general")[0].childNodes[38].nextSibling.innerHTML + "/" + data.getElementsByTagName("general")[0].childNodes[30].nextSibling.innerHTML) {
+                document.getElementById("Winds").value = data.getElementsByTagName("general")[0].childNodes[36].nextSibling.innerHTML + "/" + data.getElementsByTagName("general")[0].childNodes[38].nextSibling.innerHTML + "/" + data.getElementsByTagName("general")[0].childNodes[30].nextSibling.innerHTML;
+            }
+            // commented region to be improved for stepclimb waypoints (tedious to do but not that hard)
+            // var stepClimb = data.getElementsByTagName("general")[0].childNodes[28].nextSibling.innerHTML.split("/");
+            // stepClimb = stepClimb.slice(2, stepClimb.length);
+            var Route = data.getElementsByTagName("general")[0].childNodes[54].nextSibling.innerHTML
+            // while (stepClimb.length > 0) {
+            //     var index = Route.indexOf(stepClimb[0]);
+            //     console.log(stepClimb, index)
+            //     if (index != -1) {
+            //         index += stepClimb[0].length;
+            //         Route = Route.slice(0, index) + "/F" + stepClimb[1].slice(1, stepClimb[1].length) + Route.slice(index, Route.length);
+            //     };
+            //     if (stepClimb.length == 2) {
+            //         break;
+            //     } else {
+            //         stepClimb = stepClimb.slice(2, stepClimb.length);
+            //     };
+            // };
+            if (document.getElementById("Route").value != Route) {
+                document.getElementById("Route").value = Route;
+            };
+            // console.log(data.getElementsByTagName("general")[0].childNodes[54].nextSibling.innerHTML); //used for testing only
+        });
+        lastClicked = NaN
+    });
 })

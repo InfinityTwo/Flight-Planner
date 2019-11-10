@@ -33,6 +33,23 @@
     margin-top: -5px;
 }
 
+#FetchSB {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 15.5px;
+    width: 170px;
+    height: 32px;
+    border: 2px solid #232323;
+    border-radius: 25px;
+    text-align: center;
+    padding-top: 13px;
+    margin-left: 333px;
+    margin-top: -70px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    position: absolute;
+}
+
 .inputType1 { /* Half of a row */
     font-family: 'Roboto', sans-serif;
     color: white;
@@ -209,7 +226,7 @@
     overflow-x: hidden;
 }
 
-.Fetch {
+.FetchMETAR {
     border-radius: 25px;
     border: 2px solid #232323;
     background-color: #161616;
