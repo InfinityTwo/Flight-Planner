@@ -30,7 +30,7 @@ $(document).ready(function() {
     )
 
     $(document).click(function(event) {
-        console.log(typeof lastClicked)
+        // console.log(typeof lastClicked)
         if (outsideClick == true && lastClicked != NaN) {
             lastClicked.stop().animate({"borderTopColor": "2px solid #232323", "borderLeftColor": "2px solid #232323", "borderRightColor": "2px solid #232323", "borderBottomColor": "2px solid #232323"}, 100);
             if (lastClicked[0] == document.getElementById("Cruise")) {
@@ -192,23 +192,48 @@ $(document).ready(function() {
             if (document.getElementById("Winds").value != data.getElementsByTagName("general")[0].childNodes[36].nextSibling.innerHTML + "/" + data.getElementsByTagName("general")[0].childNodes[38].nextSibling.innerHTML + "/" + data.getElementsByTagName("general")[0].childNodes[30].nextSibling.innerHTML) {
                 document.getElementById("Winds").value = data.getElementsByTagName("general")[0].childNodes[36].nextSibling.innerHTML + "/" + data.getElementsByTagName("general")[0].childNodes[38].nextSibling.innerHTML + "/" + data.getElementsByTagName("general")[0].childNodes[30].nextSibling.innerHTML;
             }
-            // commented region to be improved for stepclimb waypoints (tedious to do but not that hard)
-            // var stepClimb = data.getElementsByTagName("general")[0].childNodes[28].nextSibling.innerHTML.split("/");
-            // stepClimb = stepClimb.slice(2, stepClimb.length);
-            var Route = data.getElementsByTagName("general")[0].childNodes[54].nextSibling.innerHTML
-            // while (stepClimb.length > 0) {
-            //     var index = Route.indexOf(stepClimb[0]);
-            //     console.log(stepClimb, index)
-            //     if (index != -1) {
-            //         index += stepClimb[0].length;
-            //         Route = Route.slice(0, index) + "/F" + stepClimb[1].slice(1, stepClimb[1].length) + Route.slice(index, Route.length);
-            //     };
-            //     if (stepClimb.length == 2) {
-            //         break;
-            //     } else {
-            //         stepClimb = stepClimb.slice(2, stepClimb.length);
-            //     };
-            // };
+            //changing the route to a preferable format
+            var Route = data.getElementsByTagName("general")[0].childNodes[54].nextSibling.innerHTML;
+            var ATCRoute = data.getElementsByTagName("atc")[0].childNodes[2].nextSibling.innerHTML;
+            var index = ATCRoute.indexOf(Route.split(" ")[0]);
+            ATCRoute = ATCRoute.slice(index, ATCRoute.length);
+            Route = ATCRoute.split("/");
+            //to get rid of N and K for waypoints
+            while (Route.length > 1) {
+                for (i = 0; i < Route.length - 1; i++) {
+                    if (Route[1][0] != "F") {
+                        Route[1] = Route[1].slice(Route[1].indexOf("F"), Route[1].length);
+                    };
+                    Route[1] = Route[0] + "/" + Route[1];
+                    Route = Route.slice(1, Route.length);
+                };
+            };
+            //to shorten route because of the N and K
+            Route = String(Route);
+            Route = Route.split(" ");
+            var toPurge = []
+            var lastAltitude = String(document.getElementById("Cruise").value)
+            lastAltitude = lastAltitude.slice(0, lastAltitude.length - 2)
+            for (i = 0; i < Route.length; i++) {
+                if (Route[i].indexOf("/F") != -1) {
+                    if (i != 0 || i != Route.length - 1) {
+                        if (Route[i - 1] == Route[i + 1] && parseInt(Route[i].slice(Route[i].indexOf("/F") + 2, Route[i].length)) == parseInt(lastAltitude)) {
+                            if (toPurge.includes(i - 1) == false) {
+                                toPurge.push(i - 1)
+                            };
+                            if (toPurge.includes(i) == false) {
+                                toPurge.push(i)
+                            };
+                        } else {
+                            lastAltitude = parseInt(Route[i].slice(Route[i].indexOf("/F") + 2, Route[i].length))
+                        };
+                    };
+                };
+            };
+            for (i = toPurge.length - 1; i >= 0; i--) {
+                Route.splice(toPurge[i], 1);
+            };
+            Route = Route.join(" ");
             if (document.getElementById("Route").value != Route) {
                 document.getElementById("Route").value = Route;
             };
