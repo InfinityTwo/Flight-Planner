@@ -1,2 +1,2 @@
 @ECHO OFF
-cmd.exe /K "cd C:\Users\Infinity\Desktop\School"
+cmd.exe /K "cd C:\Users\Infinity\Desktop\FP"
