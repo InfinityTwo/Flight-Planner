@@ -96,26 +96,28 @@ $(document).ready(function() {
             };
             if (lastClicked[0] == document.getElementById("ADepTime") || lastClicked[0] == document.getElementById("AArrTime")) {
                 var depArrActualError = false;
-                if (lastClicked[0].value.length != 4) {
-                    depArrActualError = true;
-                } else {
-                    try {
-                        parseInt(lastClicked[0].value);
-                    }
-                    catch(err) {
+                if (lastClicked[0].value.length != 0) {
+                    if (lastClicked[0].value.length != 4) {
                         depArrActualError = true;
-                    }
-                };
-                if (depArrActualError == false) {
-                    if (parseInt(lastClicked[0].value.slice(0, 1)) <= 2 && parseInt(lastClicked[0].value.slice(2, 3)) <= 5) {
-                        depArrActualError = false;
                     } else {
-                        depArrActualError = true;
-                    }
+                        try {
+                            parseInt(lastClicked[0].value);
+                        }
+                        catch(err) {
+                            depArrActualError = true;
+                        }
+                    };
+                    if (depArrActualError == false) {
+                        if (parseInt(lastClicked[0].value.slice(0, 1)) <= 2 && parseInt(lastClicked[0].value.slice(2, 3)) <= 5) {
+                            depArrActualError = false;
+                        } else {
+                            depArrActualError = true;
+                        }
+                    };
+                    if (depArrActualError == true) {
+                        redBorder(lastClicked);
+                    }; //else calculate flight time (todo for another day)
                 };
-                if (depArrActualError == true) {
-                    redBorder(lastClicked);
-                }; //else calculate flight time (todo for another day)
             };
             lastClicked = -1;
         };
