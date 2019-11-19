@@ -12,10 +12,11 @@ var lastClicked = -1;
 // functions
 function setOverlayUp(inputType) {
     inputType.prev("label.inputOverlayLabels").stop().animate({
-        "marginTop": "-20px", 
-        "marginLeft": "20px",
+        "marginTop": "-8px", 
+        "marginLeft": "22px",
         "color": "#ffffff",
-        "fontSize": "14px" 
+        "fontSize": "14px" ,
+        "z-index": "1"
     }, 125);
 };
 
@@ -24,7 +25,8 @@ function setOverlayDown(inputType) {
         "marginTop": "15px", 
         "marginLeft": "27px", 
         "color": "#5d5d5d",
-        "fontSize": "17.26px" 
+        "fontSize": "17.26px",
+        "z-index": "-1"
     }, 125);
 };
 
@@ -64,7 +66,7 @@ $(document).ready(function() {
     // event handler of hovering textboxes in new plan
     $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").hover(
         function() {
-            if ($(this).css("border") != clickedColour3) {
+            if ($(this).css("border") != clickedColour3 && $(this).css("border") != "2px solid " + errorColour) {
                 $(this).animate({
                     "borderTopColor": "2px solid " + clickedColourHover, 
                     "borderLeftColor": "2px solid " + clickedColourHover, 
@@ -73,7 +75,7 @@ $(document).ready(function() {
                 }, 100);
             };
         }, function() {
-            if ($(this).css("border") != clickedColour3) {
+            if ($(this).css("border") != clickedColour3 && $(this).css("border") != "2px solid " + errorColour) {
                 normalBorder($(this));
             };
         }
@@ -96,25 +98,33 @@ $(document).ready(function() {
         }
         outsideClick = true;
     });
-
+    
     // event handler of clicking textboxes in new plan
-    $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").click(function() {
+    function textboxClick(thisEventHandler, outsideClickBoolean) {
         // normalBorder($(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5")); //can be removed if there is no bugs after some testing
         if (lastClicked != -1) {
             normalBorder(lastClicked)
         };
-        $(this).stop().animate({
+        thisEventHandler.stop().animate({
             "borderTopColor": "2px solid " + clickedColour, 
             "borderLeftColor": "2px solid " + clickedColour, 
             "borderRightColor": "2px solid " + clickedColour, 
             "borderBottomColor": "2px solid " + clickedColour
         }, 0);
-        setOverlayUp($(this));
+        setOverlayUp(thisEventHandler);
         if (lastClicked != -1 && lastClicked.val().length == 0) {
             setOverlayDown(lastClicked);
         };
-        outsideClick = false;
-        lastClicked = $(this)
+        outsideClick = outsideClickBoolean;
+        lastClicked = thisEventHandler;
+    };
+
+    $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").click(function() {
+        textboxClick($(this), false);
+    });
+
+    $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").select(function() {
+        textboxClick($(this), true);
     });
 
     // event handler of hovering fetch and new plan

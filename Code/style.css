@@ -16,6 +16,7 @@ body {
     overflow-x: hidden;
     background-color: #1e1e1e;
     box-shadow: 5px 0px 10px -5px black;
+    z-index: 10;
 }
 
 .sidenavImages {

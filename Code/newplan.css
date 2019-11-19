@@ -7,11 +7,12 @@
     color: #5D5D5D;
     font-size: 17.26px;
     position: absolute;
-    width: 100%;
+    width: auto;
     z-index: -1;
     margin-left: 27px;
     margin-top: 15px;
     font-weight: bold;
+    background-color: #161616;
 }
 
 .leftmain {
