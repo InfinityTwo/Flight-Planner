@@ -99,7 +99,10 @@ $(document).ready(function() {
 
     // event handler of clicking textboxes in new plan
     $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").click(function() {
-        normalBorder($(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5"));
+        // normalBorder($(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5")); //can be removed if there is no bugs after some testing
+        if (lastClicked != -1) {
+            normalBorder(lastClicked)
+        };
         $(this).stop().animate({
             "borderTopColor": "2px solid " + clickedColour, 
             "borderLeftColor": "2px solid " + clickedColour, 
