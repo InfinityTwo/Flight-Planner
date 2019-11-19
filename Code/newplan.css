@@ -125,6 +125,17 @@
     text-transform: initial;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
 .rightmain {
     padding-left: 813px; /* Supposed to be 70px from the sidebar */
     margin-top: -947px;

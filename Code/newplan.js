@@ -94,8 +94,36 @@ $(document).ready(function() {
                     document.getElementById("Cruise").value = "FL" + document.getElementById("Cruise").value;
                 };
             };
+            if (lastClicked[0] == document.getElementById("ADepTime") || lastClicked[0] == document.getElementById("AArrTime")) {
+                var depArrActualError = false;
+                if (lastClicked[0].value.length != 4) {
+                    depArrActualError = true;
+                } else {
+                    try {
+                        parseInt(lastClicked[0].value);
+                    }
+                    catch(err) {
+                        depArrActualError = true;
+                    }
+                };
+                if (depArrActualError == false) {
+                    if (parseInt(lastClicked[0].value.slice(0, 1)) <= 2 && parseInt(lastClicked[0].value.slice(2, 3)) <= 5) {
+                        depArrActualError = false;
+                    } else {
+                        depArrActualError = true;
+                    }
+                };
+                if (depArrActualError == true) {
+                    redBorder(lastClicked);
+                }; //else calculate flight time (todo for another day)
+            };
             lastClicked = -1;
-        }
+        };
+        if (document.getElementById("FT").value.length > 0 && document.getElementById("LR").value.length > 0) {
+            document.getElementById("NewButtonID").innerHTML = "<strong>Complete Plan</strong>";
+        } else {
+            document.getElementById("NewButtonID").innerHTML = "<strong>Set Up Plan</strong>";
+        };
         outsideClick = true;
     });
     
@@ -292,4 +320,4 @@ $(document).ready(function() {
         lastClicked = -1
         // todo: animated placeholder text
     });
-})
+});
