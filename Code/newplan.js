@@ -57,6 +57,58 @@ function checkFilled(inputType, lengthOfInputType, inputTypeJQuery) {
     };
 };
 
+function checkTimeInputValidity(inputValue, lastclickedValue) {
+    if (inputValue.length != 4) { // check correct length of 4
+        return true;
+    } else {
+        try { // try parseInt to make sure it is integer type and not string
+            parseInt(lastclickedValue);
+        }
+        catch(err) {
+            return true;
+        }
+    };
+    if (parseInt(lastclickedValue.slice(0, 1)) <= 2 && parseInt(lastclickedValue.slice(2, 3)) <= 5) {
+        return false;
+    } else {
+        return true;
+    }
+};
+
+function timeCalculator(lastClickedItem, otherInput, lastClickedID, otherID) {
+    depArrActualError = checkTimeInputValidity(document.getElementById(lastClickedID).value, lastClickedItem.value);
+    if (depArrActualError == true) {
+        redBorder(lastClicked);
+    } else {
+        depArrActualError = checkTimeInputValidity(document.getElementById(otherID).value, otherInput.value);
+        if (depArrActualError == false) {
+            if (parseInt(document.getElementById("ADepTime").value) <= parseInt(document.getElementById("AArrTime").value)) {
+                var departureTimeH = parseInt(String(document.getElementById("ADepTime").value).substring(2, 0));
+                var arrivalTimeH = parseInt(String(document.getElementById("AArrTime").value).substring(2, 0));
+                var departureTimeM = parseInt(String(document.getElementById("ADepTime").value).substring(4, 2));
+                var arrivalTimeM = parseInt(String(document.getElementById("AArrTime").value).substring(4, 2));
+                var hoursFlown = arrivalTimeH - departureTimeH;
+                var minutesFlown = arrivalTimeM - departureTimeM;
+                if (minutesFlown < 0) {
+                    hoursFlown--;
+                    minutesFlown += 60;
+                };
+                document.getElementById("FT").value = hoursFlown + "H " + minutesFlown + "M";
+                setOverlayUp($("#FT"));;
+                if ($("#ADepTime").css("border") == "2px solid " + errorColour) {
+                    normalBorder($("#ADepTime"));
+                };
+                if ($("#AArrTime").css("border") == "2px solid " + errorColour) {
+                    normalBorder($("#AArrTime"));
+                };
+            } else {
+                redBorder($("#AArrTime"));
+                redBorder($("#ADepTime"));
+            };
+        };
+    }; //else calculate flight time (todo for another day)
+};
+
 // main code
 $(document).ready(function() {
     // just to test if nothing goes wrong
@@ -94,29 +146,13 @@ $(document).ready(function() {
                     document.getElementById("Cruise").value = "FL" + document.getElementById("Cruise").value;
                 };
             };
-            if (lastClicked[0] == document.getElementById("ADepTime") || lastClicked[0] == document.getElementById("AArrTime")) {
-                var depArrActualError = false;
-                if (lastClicked[0].value.length != 0) {
-                    if (lastClicked[0].value.length != 4) {
-                        depArrActualError = true;
-                    } else {
-                        try {
-                            parseInt(lastClicked[0].value);
-                        }
-                        catch(err) {
-                            depArrActualError = true;
-                        }
-                    };
-                    if (depArrActualError == false) {
-                        if (parseInt(lastClicked[0].value.slice(0, 1)) <= 2 && parseInt(lastClicked[0].value.slice(2, 3)) <= 5) {
-                            depArrActualError = false;
-                        } else {
-                            depArrActualError = true;
-                        }
-                    };
-                    if (depArrActualError == true) {
-                        redBorder(lastClicked);
-                    }; //else calculate flight time (todo for another day)
+            var depArrActualError1 = false;
+            var depArrActualError2 = false;
+            if (lastClicked[0].value.length != 0) { // make sure there's at least something (to check 0 length)
+                if (lastClicked[0] == document.getElementById("ADepTime")) {
+                    timeCalculator(lastClicked[0], document.getElementById("AArrTime"), "ADepTime", "AArrTime");
+                } else if (lastClicked[0] == document.getElementById("AArrTime")) {
+                    timeCalculator(lastClicked[0], document.getElementById("ADepTime"), "AArrTime", "ADepTime");
                 };
             };
             lastClicked = -1;
@@ -208,6 +244,7 @@ $(document).ready(function() {
             $.get("https://avwx.rest/api/metar/" + Arrival.toUpperCase() + "?options=&airport=true&reporting=true&format=json&onfail=cache&token=qpNMIdTcDq7TJlgxbfkZfJKPiyZ4ui_oDRIYxyMnLFc", {"Authorization" : "TOKEN qpNMIdTcDq7TJlgxbfkZfJKPiyZ4ui_oDRIYxyMnLFc"}).done(function(data) {
                 document.getElementById("METARbox2").innerHTML = data["raw"];
             });
+            $(".METARbox").css("cursor", "text")
         } else {
             if (Departure.length < 3) {
                 redBorder($("#Departure"));
