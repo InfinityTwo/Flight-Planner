@@ -193,8 +193,8 @@ $(document).ready(function() {
         textboxClick($(this), true);
     });
 
-    // event handler of hovering fetch and new plan
-    $(".FetchMETAR, .NewButton, #FetchSB").hover(
+    // event handlers of hovering fetch and new plan
+    $(".FetchMETAR, #FetchSB").hover(
         function() {
             $(this).animate({
                 "background-color": "#232323"
@@ -202,6 +202,26 @@ $(document).ready(function() {
         }, function() {
             $(this).animate({
                 "background-color": "#161616"
+            }, 125);
+        }
+    );
+
+    $(".NewButton").hover(
+        function() {
+            $(this).animate({
+                "background-color": "#505050",
+                "borderTopColor": "2px solid #505050",
+                "borderLeftColor": "2px solid #505050",
+                "borderRightColor": "2px solid #505050",
+                "borderBottomColor": "2px solid #505050"
+            }, 125);
+        }, function() {
+            $(this).animate({
+                "background-color": "#232323",
+                "borderTopColor": "2px solid #232323",
+                "borderLeftColor": "2px solid #232323",
+                "borderRightColor": "2px solid #232323",
+                "borderBottomColor": "2px solid #232323"
             }, 125);
         }
     );

@@ -199,7 +199,7 @@ input[type=number] {
 .METARbox {
     border-radius: 25px;
     border: 2px solid #232323;
-    width: 775px;
+    width: 625px;
     height: 33px;
     margin-left: 27px;
     margin-bottom: 30px;
@@ -220,7 +220,7 @@ input[type=number] {
     background-color: #161616;
     width: 160px;
     height: 33px;
-    margin-left: 870px;
+    margin-left: 720px;
     margin-top: -80px;
     padding-top: 13px;
     font-family: 'Roboto', sans-serif;
@@ -231,13 +231,47 @@ input[type=number] {
     position: absolute;
 }
 
-.NewButton {
+.restorePlan {
     border-radius: 25px;
     border: 2px solid #232323;
     background-color: #161616;
+    width: 110px;
+    height: 33px;
+    margin-left: 920px;
+    margin-top: -80px;
+    padding-top: 13px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 15.5px;
+    text-align: center;
+    cursor: pointer;
+    position: absolute;
+}
+
+.SavePlan {
+    border-radius: 25px;
+    border: 2px solid #232323;
+    background-color: #232323;
     width: 160px;
     height: 33px;
-    margin-left: 870px;
+    margin-left: 720px;
+    margin-top: -80px;
+    padding-top: 13px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    position: absolute;
+}
+
+.cancelPlan {
+    border-radius: 25px;
+    border: 2px solid #232323;
+    background-color: #161616;
+    width: 110px;
+    height: 33px;
+    margin-left: 920px;
     margin-top: -80px;
     padding-top: 13px;
     font-family: 'Roboto', sans-serif;
