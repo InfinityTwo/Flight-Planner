@@ -113,7 +113,7 @@
     cursor: not-allowed;
 }
 
-::-webkit-input-placeholder {
+/* ::-webkit-input-placeholder {
     text-transform: initial;
 }
  
@@ -127,7 +127,7 @@
 
 :-ms-input-placeholder { 
     text-transform: initial;
-}
+} */
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -137,7 +137,8 @@ input::-webkit-inner-spin-button {
 }
 
 input[type=number] {
-    -moz-appearance:textfield; /* Firefox */
+    -moz-appearance: textarea;
+    -webkit-appearance: textarea;
 }
 
 .rightmain {

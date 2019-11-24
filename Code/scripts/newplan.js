@@ -57,56 +57,42 @@ function checkFilled(inputType, lengthOfInputType, inputTypeJQuery) {
     };
 };
 
-function checkTimeInputValidity(inputValue, lastclickedValue) {
-    if (inputValue.length != 4) { // check correct length of 4
-        return true;
-    } else {
-        try { // try parseInt to make sure it is integer type and not string
-            parseInt(lastclickedValue);
-        }
-        catch(err) {
-            return true;
-        }
+function redToNormalBorder(inputType) {
+    if (inputType.css("border") == "2px solid " + errorColour) {
+        normalBorder(inputType);
     };
-    if (parseInt(lastclickedValue.slice(0, 1)) <= 2 && parseInt(lastclickedValue.slice(2, 3)) <= 5) {
-        return false;
-    } else {
+};
+
+function checkTimeInputValidity(inputValue, lastclickedValue) {
+    try { // try parseInt to make sure it is integer type and not string
+        parseInt(lastclickedValue);
+    }
+    catch(err) {
         return true;
     }
+    return (false == (inputValue.length == 4 && parseInt(lastclickedValue.slice(0, 1)) <= 2 && parseInt(lastclickedValue.slice(2, 3)) <= 5)); //returns false if all conditions are met. return true if any condition fails
 };
 
 function timeCalculator(lastClickedItem, otherInput, lastClickedID, otherID) {
-    depArrActualError = checkTimeInputValidity(document.getElementById(lastClickedID).value, lastClickedItem.value);
-    if (depArrActualError == true) {
+    if (checkTimeInputValidity(document.getElementById(lastClickedID).value, lastClickedItem.value) == true) { //check last edited time value
         redBorder(lastClicked);
-    } else {
-        depArrActualError = checkTimeInputValidity(document.getElementById(otherID).value, otherInput.value);
-        if (depArrActualError == false) {
-            if (parseInt(document.getElementById("ADepTime").value) <= parseInt(document.getElementById("AArrTime").value)) {
-                var departureTimeH = parseInt(String(document.getElementById("ADepTime").value).substring(2, 0));
-                var arrivalTimeH = parseInt(String(document.getElementById("AArrTime").value).substring(2, 0));
-                var departureTimeM = parseInt(String(document.getElementById("ADepTime").value).substring(4, 2));
-                var arrivalTimeM = parseInt(String(document.getElementById("AArrTime").value).substring(4, 2));
-                var hoursFlown = arrivalTimeH - departureTimeH;
-                var minutesFlown = arrivalTimeM - departureTimeM;
-                if (minutesFlown < 0) {
-                    hoursFlown--;
-                    minutesFlown += 60;
-                };
-                document.getElementById("FT").value = hoursFlown + "H " + minutesFlown + "M";
-                setOverlayUp($("#FT"));;
-                if ($("#ADepTime").css("border") == "2px solid " + errorColour) {
-                    normalBorder($("#ADepTime"));
-                };
-                if ($("#AArrTime").css("border") == "2px solid " + errorColour) {
-                    normalBorder($("#AArrTime"));
-                };
-            } else {
-                redBorder($("#AArrTime"));
-                redBorder($("#ADepTime"));
-            };
+    } else if (checkTimeInputValidity(document.getElementById(otherID).value, otherInput.value) == false) { //check the other time value and do nothing if the other is wrong in case it isn't filled
+        var hoursFlown = parseInt(String(document.getElementById("AArrTime").value).substring(2, 0)) - parseInt(String(document.getElementById("ADepTime").value).substring(2, 0));
+        var minutesFlown = parseInt(String(document.getElementById("AArrTime").value).substring(4, 2)) - parseInt(String(document.getElementById("ADepTime").value).substring(4, 2));
+        if (minutesFlown < 0) { //checking in case the hours are different by one but minutes are different by a negative value (e.g. D: 0159Z, A: 0201Z)
+            hoursFlown--;
+            minutesFlown += 60;
         };
-    }; //else calculate flight time (todo for another day)
+        if (parseInt(document.getElementById("ADepTime").value) > parseInt(document.getElementById("AArrTime").value)) { //checks if it goes beyond 12am (i.e. D: 2359Z, A: 0001Z)
+            hoursFlown = 24 - Math.abs(hoursFlown);
+        };
+        document.getElementById("FT").value = hoursFlown + "H " + minutesFlown + "M"; //sets text
+        //css changes
+        setOverlayUp($("#FT")); //animates the placeholder
+        redToNormalBorder($("#ADepTime")); //make it normal border if it was red
+        redToNormalBorder($("#AArrTime"));
+        $("#FT").css("cursor", "text"); //changes cursor to highlightable cursor
+    };
 };
 
 // main code
@@ -146,8 +132,6 @@ $(document).ready(function() {
                     document.getElementById("Cruise").value = "FL" + document.getElementById("Cruise").value;
                 };
             };
-            var depArrActualError1 = false;
-            var depArrActualError2 = false;
             if (lastClicked[0].value.length != 0) { // make sure there's at least something (to check 0 length)
                 if (lastClicked[0] == document.getElementById("ADepTime")) {
                     timeCalculator(lastClicked[0], document.getElementById("AArrTime"), "ADepTime", "AArrTime");
@@ -156,18 +140,24 @@ $(document).ready(function() {
                 };
             };
             lastClicked = -1;
-        };
-        if (document.getElementById("FT").value.length > 0 && document.getElementById("LR").value.length > 0) {
-            document.getElementById("NewButtonID").innerHTML = "<strong>Complete Plan</strong>";
-        } else {
-            document.getElementById("NewButtonID").innerHTML = "<strong>Set Up Plan</strong>";
+            if (document.getElementById("LR").value.length > 0) {
+                if (Math.abs(document.getElementById("LR").value) != Math.abs(document.getElementById("LR").value)) {
+                    redBorder($("#LR"));
+                } else {
+                    document.getElementById("LR").value = Math.abs(document.getElementById("LR").value) * -1;
+                };
+                if (document.getElementById("FT").value.length > 0) {
+                    document.getElementById("NewButtonID").innerHTML = "<strong>Complete Plan</strong>";
+                } else {
+                    document.getElementById("NewButtonID").innerHTML = "<strong>Set Up Plan</strong>";
+                };
+            };
         };
         outsideClick = true;
     });
     
     // event handler of clicking textboxes in new plan
     function textboxClick(thisEventHandler, outsideClickBoolean) {
-        // normalBorder($(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5")); //can be removed if there is no bugs after some testing
         if (lastClicked != -1) {
             normalBorder(lastClicked)
         };
@@ -294,6 +284,7 @@ $(document).ready(function() {
     $("#FetchSB").click(function() {
         $.get("https://www.simbrief.com/api/xml.fetcher.php?username=InFInItyKiLL33").done(function(data) {
             // console.log(data); //used for testing only
+            // updating all div text values from the api data and animating all of the edited data's placeholder text
             if (document.getElementById("Departure").value != data.getElementsByTagName("origin")[0].childNodes[0].nextSibling.innerHTML) {
                 document.getElementById("Departure").value = data.getElementsByTagName("origin")[0].childNodes[0].nextSibling.innerHTML;
                 setOverlayUp($("#Departure"));
@@ -345,31 +336,29 @@ $(document).ready(function() {
                 };
             };
             //to shorten route because of the N and K
-            Route = String(Route);
-            Route = Route.split(" ");
+            Route = String(Route).split(" ");
             var toPurge = [];
             var lastAltitude = String(document.getElementById("Cruise").value);
             lastAltitude = lastAltitude.slice(0, lastAltitude.length - 2);
             for (i = 0; i < Route.length; i++) {
-                if (Route[i].indexOf("/F") != -1) {
-                    if (i != 0 || i != Route.length - 1) {
-                        if (Route[i - 1] == Route[i + 1] && parseInt(Route[i].slice(Route[i].indexOf("/F") + 2, Route[i].length)) == parseInt(lastAltitude)) {
-                            if (toPurge.includes(i - 1) == false) {
-                                toPurge.push(i - 1);
-                            };
-                            if (toPurge.includes(i) == false) {
-                                toPurge.push(i);
-                            };
-                        } else {
-                            lastAltitude = parseInt(Route[i].slice(Route[i].indexOf("/F") + 2, Route[i].length));
+                if ((Route[i].indexOf("/F") != -1) && (i != 0 || i != Route.length - 1)) {
+                    if (Route[i - 1] == Route[i + 1] && parseInt(Route[i].slice(Route[i].indexOf("/F") + 2, Route[i].length)) == parseInt(lastAltitude)) {
+                        if (toPurge.includes(i - 1) == false) {
+                            toPurge.push(i - 1);
                         };
+                        if (toPurge.includes(i) == false) {
+                            toPurge.push(i);
+                        };
+                    } else {
+                        lastAltitude = parseInt(Route[i].slice(Route[i].indexOf("/F") + 2, Route[i].length));
                     };
                 };
             };
             for (i = toPurge.length - 1; i >= 0; i--) {
                 Route.splice(toPurge[i], 1);
             };
-            Route = Route.join(" ");
+            // adds origin, origin runway, dest, dest runway and joins the list of waypoints and airways together
+            Route = document.getElementById("Departure").value + "/" + data.getElementsByTagName("origin")[0].childNodes[12].nextSibling.innerHTML + " " + Route.join(" ") + " " + document.getElementById("Arrival").value + "/" + data.getElementsByTagName("destination")[0].childNodes[12].nextSibling.innerHTML;
             if (document.getElementById("Route").value != Route) {
                 document.getElementById("Route").value = Route;
                 setOverlayUp($("#Route"));
@@ -377,6 +366,5 @@ $(document).ready(function() {
             // console.log(data.getElementsByTagName("general")[0].childNodes[54].nextSibling.innerHTML); //used for testing only
         });
         lastClicked = -1
-        // todo: animated placeholder text
     });
 });
