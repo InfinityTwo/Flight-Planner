@@ -8,6 +8,27 @@ var clickedColour0 = "2px solid " + clickedColourNormal;
 var clickedColour2 = "2px solid " + clickedColourHover;
 var clickedColour3 = "2px solid " + clickedColour;
 var lastClicked = -1;
+var inputTypeListToCheck = ["Departure", "Arrival", "Date", "FlightNum", "Cruise", "Equipment", "CI", "Cargo", "Pax", "Fuel", "DepTime", "Winds", "ArrTime", "Route", "ADepTime", "AArrTime", "FT", "LR"];
+var inputTypeListToCheckValue = {
+    "Departure": [3, 0], 
+    "Arrival": [3, 0], 
+    "Date": [8, 2], 
+    "FlightNum": [4, 0], 
+    "Cruise": [5, 3], 
+    "Equipment": [4, 0], 
+    "CI": [1, 1], 
+    "Cargo": [1, 1], 
+    "Pax": [1, 1], 
+    "Fuel": [3, 2], 
+    "DepTime": [5, 0], 
+    "Winds": [3, 2], 
+    "ArrTime": [5, 0], 
+    "Route": [1, 0], 
+    "ADepTime": [4, 1], 
+    "AArrTime": [4, 1], 
+    "FT": [1, 0], 
+    "LR": [1, 1] 
+}; // The first digit in the array is the minimum length, second digit represents the following: 0 - Nothing else to check, 1 - Check integer, 2 - Check integer with strip("/"), 3 - Check integer with strip("FL") or strip("ft")
 
 // functions
 function setOverlayUp(inputType) {
@@ -39,7 +60,7 @@ function redBorder(inputType) {
     }, 125);
 };
 
-function normalBorder(inputType) { //need to add ignore those with red border
+function normalBorder(inputType) { // need to add ignore those with red border
     inputType.animate({
         "borderTopColor": "2px solid #232323", 
         "borderLeftColor": "2px solid #232323", 
@@ -48,13 +69,28 @@ function normalBorder(inputType) { //need to add ignore those with red border
     }, 100);
 };
 
-function checkFilled(inputType, lengthOfInputType, inputTypeJQuery) {
-    if (inputType.length < lengthOfInputType) {
-        redBorder(inputTypeJQuery);
-        return true;
-    } else {
+function checkFilled(inputTypeValue, lengthOfInputType, inputTypeJQuery, specialCheck, toReturnOnEmpty) {
+    if (inputTypeValue.length == 0 && toReturnOnEmpty == true) {
         return false;
     };
+    if (inputTypeValue.length < lengthOfInputType) {
+        redBorder(inputTypeJQuery);
+        return true;
+    };
+    if (specialCheck >= 1 && specialCheck <= 3) {
+        if (specialCheck >= 2) {
+            if (specialCheck == 2 && inputTypeValue.includes("/") == false) {
+                redBorder(inputTypeJQuery);
+                return true;
+            };
+            inputTypeValue = inputTypeValue.toUpperCase().split("/").join("").split("FL").join("").split("FT").join("");
+        };
+        if (Math.abs(inputTypeValue) != Math.abs(inputTypeValue)) {
+            redBorder(inputTypeJQuery);
+            return true;
+        };
+    };
+    return false;
 };
 
 function redToNormalBorder(inputType) {
@@ -70,36 +106,102 @@ function checkTimeInputValidity(inputValue, lastclickedValue) {
     catch(err) {
         return true;
     }
-    return (false == (inputValue.length == 4 && parseInt(lastclickedValue.slice(0, 1)) <= 2 && parseInt(lastclickedValue.slice(2, 3)) <= 5)); //returns false if all conditions are met. return true if any condition fails
+    return (false == (inputValue.length == 4 && parseInt(lastclickedValue.slice(0, 1)) <= 2 && parseInt(lastclickedValue.slice(2, 3)) <= 5)); // returns false if all conditions are met. return true if any condition fails
 };
 
 function timeCalculator(lastClickedItem, otherInput, lastClickedID, otherID) {
-    if (checkTimeInputValidity(document.getElementById(lastClickedID).value, lastClickedItem.value) == true) { //check last edited time value
+    if (checkTimeInputValidity(document.getElementById(lastClickedID).value, lastClickedItem.value) == true) { // check last edited time value
         redBorder(lastClicked);
-    } else if (checkTimeInputValidity(document.getElementById(otherID).value, otherInput.value) == false) { //check the other time value and do nothing if the other is wrong in case it isn't filled
+    } else if (checkTimeInputValidity(document.getElementById(otherID).value, otherInput.value) == false) { // check the other time value and do nothing if the other is wrong in case it isn't filled
         var hoursFlown = parseInt(String(document.getElementById("AArrTime").value).substring(2, 0)) - parseInt(String(document.getElementById("ADepTime").value).substring(2, 0));
         var minutesFlown = parseInt(String(document.getElementById("AArrTime").value).substring(4, 2)) - parseInt(String(document.getElementById("ADepTime").value).substring(4, 2));
-        if (minutesFlown < 0) { //checking in case the hours are different by one but minutes are different by a negative value (e.g. D: 0159Z, A: 0201Z)
+        if (minutesFlown < 0) { // checking in case the hours are different by one but minutes are different by a negative value (e.g. D: 0159Z, A: 0201Z)
             hoursFlown--;
             minutesFlown += 60;
         };
-        if (parseInt(document.getElementById("ADepTime").value) > parseInt(document.getElementById("AArrTime").value)) { //checks if it goes beyond 12am (i.e. D: 2359Z, A: 0001Z)
+        if (parseInt(document.getElementById("ADepTime").value) > parseInt(document.getElementById("AArrTime").value)) { // checks if it goes beyond 12am (i.e. D: 2359Z, A: 0001Z)
             hoursFlown = 24 - Math.abs(hoursFlown);
         };
-        document.getElementById("FT").value = hoursFlown + "H " + minutesFlown + "M"; //sets text
-        //css changes
-        setOverlayUp($("#FT")); //animates the placeholder
-        redToNormalBorder($("#ADepTime")); //make it normal border if it was red
+        document.getElementById("FT").value = hoursFlown + "H " + minutesFlown + "M"; // sets text
+        // css changes
+        setOverlayUp($("#FT")); // animates the placeholder
+        redToNormalBorder($("#ADepTime")); // make it normal border if it was red
         redToNormalBorder($("#AArrTime"));
-        $("#FT").css("cursor", "text"); //changes cursor to highlightable cursor
+        $("#FT").css("cursor", "text"); // changes cursor to highlightable cursor
     };
+};
+
+function clickedOutsideOrTabbed(releasedBox) {
+    if (outsideClick == true && lastClicked != -1) {
+        if (checkFilled(document.getElementById(lastClicked[0]["id"]).value, inputTypeListToCheckValue[lastClicked[0]["id"]][0], $("#" + lastClicked[0]["id"]), inputTypeListToCheckValue[lastClicked[0]["id"]][1], true) == true) {
+            redBorder(lastClicked);
+        } else {
+            if (lastClicked.val().length == 0) {
+                setOverlayDown(lastClicked);
+            };
+            normalBorder(lastClicked);
+        };
+        if (lastClicked[0].value.length != 0) { // make sure there's at least something (to check 0 length)
+            if (lastClicked[0] == document.getElementById("Cruise")) {
+                if (document.getElementById("Cruise").value.length <= 3 && document.getElementById("Cruise").value.length >= 2 && document.getElementById("Cruise").value.toUpperCase().includes("FL") == false && document.getElementById("Cruise").value.toUpperCase().includes("ft") == false) {
+                    document.getElementById("Cruise").value = "FL" + document.getElementById("Cruise").value;
+                } else if (document.getElementById("Cruise").value.toUpperCase().includes("FT") == false && document.getElementById("Cruise").value.toUpperCase().includes("FL") == false) {
+                    document.getElementById("Cruise").value = document.getElementById("Cruise").value + "ft";
+                };
+            };
+            if (lastClicked[0] == document.getElementById("ADepTime")) {
+                timeCalculator(lastClicked[0], document.getElementById("AArrTime"), "ADepTime", "AArrTime");
+            } else if (lastClicked[0] == document.getElementById("AArrTime")) {
+                timeCalculator(lastClicked[0], document.getElementById("ADepTime"), "AArrTime", "ADepTime");
+            };
+        };
+        lastClicked = -1;
+        if (document.getElementById("LR").value.length > 0) {
+            if (Math.abs(document.getElementById("LR").value) != Math.abs(document.getElementById("LR").value)) {
+                redBorder($("#LR"));
+            } else {
+                document.getElementById("LR").value = Math.abs(document.getElementById("LR").value) * -1;
+            };
+            if (document.getElementById("FT").value.length > 0) {
+                document.getElementById("NewButtonID").innerHTML = "<strong>Complete Plan</strong>";
+            } else {
+                document.getElementById("NewButtonID").innerHTML = "<strong>Set Up Plan</strong>";
+            };
+        };
+    };
+    outsideClick = true;
+    if (releasedBox != false) {
+        lastClicked = releasedBox;
+        setOverlayUp(lastClicked);
+        lastClicked.stop().animate({
+            "borderTopColor": "2px solid " + clickedColour, 
+            "borderLeftColor": "2px solid " + clickedColour, 
+            "borderRightColor": "2px solid " + clickedColour, 
+            "borderBottomColor": "2px solid " + clickedColour
+        }, 0);
+    };
+};
+
+function textboxClick(thisEventHandler, outsideClickBoolean) {
+    if (lastClicked != -1) {
+        normalBorder(lastClicked)
+    };
+    thisEventHandler.stop().animate({
+        "borderTopColor": "2px solid " + clickedColour, 
+        "borderLeftColor": "2px solid " + clickedColour, 
+        "borderRightColor": "2px solid " + clickedColour, 
+        "borderBottomColor": "2px solid " + clickedColour
+    }, 0);
+    setOverlayUp(thisEventHandler);
+    if (lastClicked != -1 && lastClicked.val().length == 0) {
+        setOverlayDown(lastClicked);
+    };
+    outsideClick = outsideClickBoolean;
+    lastClicked = thisEventHandler;
 };
 
 // main code
 $(document).ready(function() {
-    // just to test if nothing goes wrong
-    console.log("loaded");
-
     // ANIMATIONS AND UI EFFECTS
     // event handler of hovering textboxes in new plan
     $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").hover(
@@ -118,63 +220,20 @@ $(document).ready(function() {
             };
         }
     );
+
+    // event handler of tabbing into the next div
+    $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").on("keyup", function(e) {
+        if (e.which == 9) {
+            clickedOutsideOrTabbed($(this));
+        };
+    })
     
     // event handler of clicking anywhere except textboxes in plan
     $(document).click(function(event) {
-        // console.log(typeof lastClicked)
-        if (outsideClick == true && lastClicked != -1) {
-            normalBorder(lastClicked);
-            if (lastClicked.val().length == 0) {
-                setOverlayDown(lastClicked);
-            };
-            if (lastClicked[0] == document.getElementById("Cruise")) {
-                if (document.getElementById("Cruise").value.length <= 3 && document.getElementById("Cruise").value.length >= 2 && document.getElementById("Cruise").value.includes("FL") == false) {
-                    document.getElementById("Cruise").value = "FL" + document.getElementById("Cruise").value;
-                };
-            };
-            if (lastClicked[0].value.length != 0) { // make sure there's at least something (to check 0 length)
-                if (lastClicked[0] == document.getElementById("ADepTime")) {
-                    timeCalculator(lastClicked[0], document.getElementById("AArrTime"), "ADepTime", "AArrTime");
-                } else if (lastClicked[0] == document.getElementById("AArrTime")) {
-                    timeCalculator(lastClicked[0], document.getElementById("ADepTime"), "AArrTime", "ADepTime");
-                };
-            };
-            lastClicked = -1;
-            if (document.getElementById("LR").value.length > 0) {
-                if (Math.abs(document.getElementById("LR").value) != Math.abs(document.getElementById("LR").value)) {
-                    redBorder($("#LR"));
-                } else {
-                    document.getElementById("LR").value = Math.abs(document.getElementById("LR").value) * -1;
-                };
-                if (document.getElementById("FT").value.length > 0) {
-                    document.getElementById("NewButtonID").innerHTML = "<strong>Complete Plan</strong>";
-                } else {
-                    document.getElementById("NewButtonID").innerHTML = "<strong>Set Up Plan</strong>";
-                };
-            };
-        };
-        outsideClick = true;
+        clickedOutsideOrTabbed(false);
     });
     
     // event handler of clicking textboxes in new plan
-    function textboxClick(thisEventHandler, outsideClickBoolean) {
-        if (lastClicked != -1) {
-            normalBorder(lastClicked)
-        };
-        thisEventHandler.stop().animate({
-            "borderTopColor": "2px solid " + clickedColour, 
-            "borderLeftColor": "2px solid " + clickedColour, 
-            "borderRightColor": "2px solid " + clickedColour, 
-            "borderBottomColor": "2px solid " + clickedColour
-        }, 0);
-        setOverlayUp(thisEventHandler);
-        if (lastClicked != -1 && lastClicked.val().length == 0) {
-            setOverlayDown(lastClicked);
-        };
-        outsideClick = outsideClickBoolean;
-        lastClicked = thisEventHandler;
-    };
-
     $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").click(function() {
         textboxClick($(this), false);
     });
@@ -184,7 +243,7 @@ $(document).ready(function() {
     });
 
     // event handlers of hovering fetch and new plan
-    $(".FetchMETAR, #FetchSB").hover(
+    $(".FetchMETAR").hover(
         function() {
             $(this).animate({
                 "background-color": "#232323"
@@ -196,7 +255,7 @@ $(document).ready(function() {
         }
     );
 
-    $(".NewButton").hover(
+    $(".NewButton, #FetchSB").hover(
         function() {
             $(this).animate({
                 "background-color": "#505050",
@@ -244,6 +303,7 @@ $(document).ready(function() {
 
     // Fetch Metar Clicked
     $(".FetchMETAR").click(function() {
+        clickedOutsideOrTabbed(false);
         normalBorder($(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5"));
         var Departure = document.getElementById("Departure").value;
         var Arrival = document.getElementById("Arrival").value;
@@ -268,11 +328,11 @@ $(document).ready(function() {
 
     // New Plan Clicked
     $(".NewButton").click(function() {
+        clickedOutsideOrTabbed(false);
         var toExit = false;
         var inputTypeListToCheck = ["Departure", "Arrival", "Date", "FlightNum", "Cruise", "Equipment", "Cargo", "Fuel", "DepTime", "ArrTime", "Route"];
-        var inputTypeListToCheckValue = [3, 3, 8, 4, 5, 3, 1, 4, 4, 4, 3];
         for (i = 0; i < inputTypeListToCheck.length; i++) {
-            toExit = checkFilled(document.getElementById(inputTypeListToCheck[i]).value, inputTypeListToCheckValue[i], $("#" + inputTypeListToCheck[i]))
+            toExit = checkFilled(document.getElementById(inputTypeListToCheck[i]).value, inputTypeListToCheckValue[inputTypeListToCheck[i]][0], $("#" + inputTypeListToCheck[i]), inputTypeListToCheckValue[inputTypeListToCheck[i]][1], false);
         };
         outsideClick = false;
         if (toExit == true) {
@@ -282,50 +342,55 @@ $(document).ready(function() {
 
     // Fetch Simbrief Clicked
     $("#FetchSB").click(function() {
+        clickedOutsideOrTabbed(false);
         $.get("https://www.simbrief.com/api/xml.fetcher.php?username=InFInItyKiLL33").done(function(data) {
-            // console.log(data); //used for testing only
+            // console.log(data); // used for testing only
             // updating all div text values from the api data and animating all of the edited data's placeholder text
+            function overlayUpAndNormalBorder(inputValue) {
+                setOverlayUp(inputValue);
+                normalBorder(inputValue);
+            };
             if (document.getElementById("Departure").value != data.getElementsByTagName("origin")[0].childNodes[0].nextSibling.innerHTML) {
                 document.getElementById("Departure").value = data.getElementsByTagName("origin")[0].childNodes[0].nextSibling.innerHTML;
-                setOverlayUp($("#Departure"));
+                overlayUpAndNormalBorder($("#Departure"));
             }
             if (document.getElementById("Arrival").value != data.getElementsByTagName("destination")[0].childNodes[0].nextSibling.innerHTML) {
                 document.getElementById("Arrival").value = data.getElementsByTagName("destination")[0].childNodes[0].nextSibling.innerHTML;
-                setOverlayUp($("#Arrival"));
+                overlayUpAndNormalBorder($("#Arrival"));
             }
             if (document.getElementById("Date").value.length == 0) {
                 var date = new Date();
                 date = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
                 document.getElementById("Date").value = date;
-                setOverlayUp($("#Date"));
+                overlayUpAndNormalBorder($("#Date"));
             }
             if (document.getElementById("FlightNum").value != data.getElementsByTagName("general")[0].childNodes[2].nextSibling.innerHTML + data.getElementsByTagName("general")[0].childNodes[4].nextSibling.innerHTML) {
                 document.getElementById("FlightNum").value = data.getElementsByTagName("general")[0].childNodes[2].nextSibling.innerHTML + data.getElementsByTagName("general")[0].childNodes[4].nextSibling.innerHTML;
-                setOverlayUp($("#FlightNum"));
+                overlayUpAndNormalBorder($("#FlightNum"));
             }
             if (document.getElementById("Cruise").value != data.getElementsByTagName("general")[0].childNodes[26].nextSibling.innerHTML) {
-                document.getElementById("Cruise").value = data.getElementsByTagName("general")[0].childNodes[26].nextSibling.innerHTML;
-                setOverlayUp($("#Cruise"));
+                document.getElementById("Cruise").value = "FL" + data.getElementsByTagName("general")[0].childNodes[26].nextSibling.innerHTML.substring(0, data.getElementsByTagName("general")[0].childNodes[26].nextSibling.innerHTML.length - 2);
+                overlayUpAndNormalBorder($("#Cruise"));
             }
             if (document.getElementById("CI").value != data.getElementsByTagName("general")[0].childNodes[14].nextSibling.innerHTML.slice(2)) {
                 document.getElementById("CI").value = data.getElementsByTagName("general")[0].childNodes[14].nextSibling.innerHTML.slice(2);
-                setOverlayUp($("#CI"));
+                overlayUpAndNormalBorder($("#CI"));
             }
             if (document.getElementById("Fuel").value != data.getElementsByTagName("fuel")[0].childNodes[18].nextSibling.innerHTML + "/" + String(parseInt(data.getElementsByTagName("fuel")[0].childNodes[4].nextSibling.innerHTML) + parseInt(data.getElementsByTagName("fuel")[0].childNodes[6].nextSibling.innerHTML) + parseInt(data.getElementsByTagName("fuel")[0].childNodes[8].nextSibling.innerHTML))) {
                 document.getElementById("Fuel").value = data.getElementsByTagName("fuel")[0].childNodes[18].nextSibling.innerHTML + "/" + String(parseInt(data.getElementsByTagName("fuel")[0].childNodes[4].nextSibling.innerHTML) + parseInt(data.getElementsByTagName("fuel")[0].childNodes[6].nextSibling.innerHTML) + parseInt(data.getElementsByTagName("fuel")[0].childNodes[8].nextSibling.innerHTML));
-                setOverlayUp($("#Fuel"));
+                overlayUpAndNormalBorder($("#Fuel"));
             }
             if (document.getElementById("Winds").value != data.getElementsByTagName("general")[0].childNodes[36].nextSibling.innerHTML + "/" + data.getElementsByTagName("general")[0].childNodes[38].nextSibling.innerHTML + "/" + data.getElementsByTagName("general")[0].childNodes[30].nextSibling.innerHTML) {
                 document.getElementById("Winds").value = data.getElementsByTagName("general")[0].childNodes[36].nextSibling.innerHTML + "/" + data.getElementsByTagName("general")[0].childNodes[38].nextSibling.innerHTML + "/" + data.getElementsByTagName("general")[0].childNodes[30].nextSibling.innerHTML;
-                setOverlayUp($("#Winds"));
+                overlayUpAndNormalBorder($("#Winds"));
             }
-            //changing the route to a preferable format
+            // changing the route to a preferable format
             var Route = data.getElementsByTagName("general")[0].childNodes[54].nextSibling.innerHTML;
             var ATCRoute = data.getElementsByTagName("atc")[0].childNodes[2].nextSibling.innerHTML;
             var index = ATCRoute.indexOf(Route.split(" ")[0]);
             ATCRoute = ATCRoute.slice(index, ATCRoute.length);
             Route = ATCRoute.split("/");
-            //to get rid of N and K for waypoints
+            // to get rid of N and K for waypoints
             while (Route.length > 1) {
                 for (i = 0; i < Route.length - 1; i++) {
                     if (Route[1][0] != "F") {
@@ -335,7 +400,7 @@ $(document).ready(function() {
                     Route = Route.slice(1, Route.length);
                 };
             };
-            //to shorten route because of the N and K
+            // to shorten route because of the N and K
             Route = String(Route).split(" ");
             var toPurge = [];
             var lastAltitude = String(document.getElementById("Cruise").value);
@@ -361,9 +426,9 @@ $(document).ready(function() {
             Route = document.getElementById("Departure").value + "/" + data.getElementsByTagName("origin")[0].childNodes[12].nextSibling.innerHTML + " " + Route.join(" ") + " " + document.getElementById("Arrival").value + "/" + data.getElementsByTagName("destination")[0].childNodes[12].nextSibling.innerHTML;
             if (document.getElementById("Route").value != Route) {
                 document.getElementById("Route").value = Route;
-                setOverlayUp($("#Route"));
+                overlayUpAndNormalBorder($("#Route"));
             };
-            // console.log(data.getElementsByTagName("general")[0].childNodes[54].nextSibling.innerHTML); //used for testing only
+            // console.log(data.getElementsByTagName("general")[0].childNodes[54].nextSibling.innerHTML); // used for testing only
         });
         lastClicked = -1
     });

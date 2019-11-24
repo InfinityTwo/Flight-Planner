@@ -61,6 +61,7 @@
     margin-bottom: 20px;
     cursor: pointer;
     position: absolute;
+    background: #232323;
 }
 
 .inputType1, .inputType2, .inputType3, .inputType4, .inputType5 { /* Similar properties for all inputTypes */
@@ -109,36 +110,15 @@
 
 }
 
-#FT, .METARbox {
+#FT, .METARbox, #Equipment {
     cursor: not-allowed;
 }
-/* 
-::-webkit-input-placeholder {
-    text-transform: initial;
-}
- 
-:-moz-placeholder { 
-    text-transform: initial;
-}
- 
-::-moz-placeholder {  
-    text-transform: initial;
-}
-
-:-ms-input-placeholder { 
-    text-transform: initial;
-} */
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-}
-
-input[type=number] {
-    -moz-appearance: textarea;
-    -webkit-appearance: textarea;
 }
 
 .rightmain {
