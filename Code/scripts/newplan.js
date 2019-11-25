@@ -51,23 +51,32 @@ function setOverlayDown(inputType) {
     }, 125);
 };
 
-function redBorder(inputType) {
+function borderColouring(inputType, colour, timer) {
     inputType.stop().animate({
-        "borderTopColor": "2px solid " + errorColour, 
-        "borderLeftColor": "2px solid " + errorColour, 
-        "borderRightColor": "2px solid " + errorColour, 
-        "borderBottomColor": "2px solid " + errorColour
-    }, 125);
+        "borderTopColor": "2px solid " + colour, 
+        "borderLeftColor": "2px solid " + colour, 
+        "borderRightColor": "2px solid " + colour, 
+        "borderBottomColor": "2px solid " + colour
+    }, timer);
+};
+
+function redBorder(inputType) {
+    borderColouring(inputType, errorColour, 125);
 };
 
 function normalBorder(inputType) { // need to add ignore those with red border
-    inputType.animate({
-        "borderTopColor": "2px solid #232323", 
-        "borderLeftColor": "2px solid #232323", 
-        "borderRightColor": "2px solid #232323", 
-        "borderBottomColor": "2px solid #232323"
-    }, 100);
+    borderColouring(inputType, "#232323", 125);
 };
+
+function hoverOverColouring(inputType, colour) {
+    inputType.stop().animate({ // cannot use "borderColouring(inputType, colour, 125);"" as there is a delay
+        "background-color": colour,
+        "borderTopColor": "2px solid " + colour, 
+        "borderLeftColor": "2px solid " + colour, 
+        "borderRightColor": "2px solid " + colour, 
+        "borderBottomColor": "2px solid " + colour
+    }, 125);
+}
 
 function checkFilled(inputTypeValue, lengthOfInputType, inputTypeJQuery, specialCheck, toReturnOnEmpty) {
     if (inputTypeValue.length == 0 && toReturnOnEmpty == true) {
@@ -164,8 +173,10 @@ function clickedOutsideOrTabbed(releasedBox) {
             };
             if (document.getElementById("FT").value.length > 0) {
                 document.getElementById("NewButtonID").innerHTML = "<strong>Complete Plan</strong>";
+                hoverOverColouring($("#NewButtonID"), "#3d9e00");
             } else {
                 document.getElementById("NewButtonID").innerHTML = "<strong>Set Up Plan</strong>";
+                hoverOverColouring($("#NewButtonID"), "#00638a");
             };
         };
     };
@@ -173,12 +184,7 @@ function clickedOutsideOrTabbed(releasedBox) {
     if (releasedBox != false) {
         lastClicked = releasedBox;
         setOverlayUp(lastClicked);
-        lastClicked.stop().animate({
-            "borderTopColor": "2px solid " + clickedColour, 
-            "borderLeftColor": "2px solid " + clickedColour, 
-            "borderRightColor": "2px solid " + clickedColour, 
-            "borderBottomColor": "2px solid " + clickedColour
-        }, 0);
+        borderColouring(lastClicked, clickedColour, 0);
     };
 };
 
@@ -186,12 +192,7 @@ function textboxClick(thisEventHandler, outsideClickBoolean) {
     if (lastClicked != -1) {
         normalBorder(lastClicked)
     };
-    thisEventHandler.stop().animate({
-        "borderTopColor": "2px solid " + clickedColour, 
-        "borderLeftColor": "2px solid " + clickedColour, 
-        "borderRightColor": "2px solid " + clickedColour, 
-        "borderBottomColor": "2px solid " + clickedColour
-    }, 0);
+    borderColouring(thisEventHandler, clickedColour, 0);
     setOverlayUp(thisEventHandler);
     if (lastClicked != -1 && lastClicked.val().length == 0) {
         setOverlayDown(lastClicked);
@@ -207,12 +208,7 @@ $(document).ready(function() {
     $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").hover(
         function() {
             if ($(this).css("border") != clickedColour3 && $(this).css("border") != "2px solid " + errorColour) {
-                $(this).animate({
-                    "borderTopColor": "2px solid " + clickedColourHover, 
-                    "borderLeftColor": "2px solid " + clickedColourHover, 
-                    "borderRightColor": "2px solid " + clickedColourHover, 
-                    "borderBottomColor": "2px solid " + clickedColourHover
-                }, 100);
+                borderColouring($(this), clickedColourHover, 125)
             };
         }, function() {
             if ($(this).css("border") != clickedColour3 && $(this).css("border") != "2px solid " + errorColour) {
@@ -245,33 +241,33 @@ $(document).ready(function() {
     // event handlers of hovering fetch and new plan
     $(".FetchMETAR").hover(
         function() {
-            $(this).animate({
-                "background-color": "#232323"
-            }, 125);
+            hoverOverColouring($(this), "#ad8000");
         }, function() {
-            $(this).animate({
-                "background-color": "#161616"
-            }, 125);
+            hoverOverColouring($(this), "#946d00");
         }
     );
 
-    $(".NewButton, #FetchSB").hover(
+    $("#FetchSB").hover(
         function() {
-            $(this).animate({
-                "background-color": "#505050",
-                "borderTopColor": "2px solid #505050",
-                "borderLeftColor": "2px solid #505050",
-                "borderRightColor": "2px solid #505050",
-                "borderBottomColor": "2px solid #505050"
-            }, 125);
+            hoverOverColouring($(this), "#00a3e4");
         }, function() {
-            $(this).animate({
-                "background-color": "#232323",
-                "borderTopColor": "2px solid #232323",
-                "borderLeftColor": "2px solid #232323",
-                "borderRightColor": "2px solid #232323",
-                "borderBottomColor": "2px solid #232323"
-            }, 125);
+            hoverOverColouring($(this), "#00638a");
+        }
+    );
+
+    $(".NewButton").hover(
+        function() {
+            if (document.getElementById("NewButtonID").innerHTML == "<strong>Complete Plan</strong>") {
+                hoverOverColouring($(this), "#31d100");
+            } else {
+                hoverOverColouring($(this), "#00a3e4");
+            };
+        }, function() {
+            if (document.getElementById("NewButtonID").innerHTML == "<strong>Complete Plan</strong>") {
+                hoverOverColouring($(this), "#3d9e00");
+            } else {
+                hoverOverColouring($(this), "#00638a");
+            };
         }
     );
 

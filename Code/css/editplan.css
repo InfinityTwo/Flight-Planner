@@ -2,8 +2,23 @@
 /* Create Plan Page */
 /*                  */
 
+/* Variables */
+:root {
+    --mainFont: 'Roboto', sans-serif;
+    --mainTextColour: white;
+    --mainBackgroundColour: #161616;
+    --mainBorderColour: #232323;
+    --lightBlueColour: #00638a;
+    --lightBlueHighlightColour: #00a3e4;
+    --lightGreenColour: #3d9e00;
+    --lightGreenHighlightColour: #31d100;
+    --orangeColour: #946d00;
+    --orangeHighlightColour: #ad8000;
+}
+
+/* All other CSS */
 .inputOverlayLabels {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--mainFont);
     color: #5D5D5D;
     font-size: 17.26px;
     position: absolute;
@@ -12,7 +27,7 @@
     margin-left: 27px;
     margin-top: 15px;
     font-weight: bold;
-    background-color: #161616;
+    background-color: var(--mainBackgroundColour);
 }
 
 .leftmain {
@@ -20,16 +35,16 @@
 }
 
 #createplan {
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 25px;
     padding-left: 20px;
     padding-top: 15px;
 }
 
 #preflight {
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 20px;
     padding-left: 40px;
     padding-top: 25px;
@@ -37,8 +52,8 @@
 }
 
 #postflight {
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 20px;
     padding-left: 40px;
     padding-top: 0px;
@@ -46,28 +61,11 @@
     margin-top: -5px;
 }
 
-#FetchSB {
-    font-family: 'Roboto', sans-serif;
-    color: white;
-    font-size: 15.5px;
-    width: 170px;
-    height: 32px;
-    border: 2px solid #232323;
-    border-radius: 25px;
-    text-align: center;
-    padding-top: 13px;
-    margin-left: 333px;
-    margin-top: -70px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    position: absolute;
-}
-
 .inputType1, .inputType2, .inputType3, .inputType4, .inputType5 { /* Similar properties for all inputTypes */
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 17.26px;
-    border: 2px solid #232323;
+    border: 2px solid var(--mainBorderColour);
     background-color: transparent;
     border-radius: 25px;
     outline: none;
@@ -126,15 +124,15 @@ input::-webkit-inner-spin-button {
 }
 
 #flightdetails {
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 25px;
     padding-top: 15px;
 }
 
 #fleettext {
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 20px;
     padding-left: 65px;
     padding-top: 25px;
@@ -143,15 +141,15 @@ input::-webkit-inner-spin-button {
 
 .fleetbox {
     border-radius: 25px;
-    border: 2px solid #232323;
+    border: 2px solid var(--mainBorderColour);
     width: 1000px;
     height: 600px;
     margin-left: 27px;
 }
 
 #METARtext {
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 20px;
     padding-left: 65px;
     padding-top: 25px;
@@ -159,8 +157,8 @@ input::-webkit-inner-spin-button {
 }
 
 .METARDep {
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 17px;
     padding-top: 13px;
     margin-left: -80px;
@@ -168,8 +166,8 @@ input::-webkit-inner-spin-button {
 }
 
 .METARArr {
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 17px;
     padding-top: 13px;
     margin-left: -50px;
@@ -178,13 +176,13 @@ input::-webkit-inner-spin-button {
 
 .METARbox {
     border-radius: 25px;
-    border: 2px solid #232323;
+    border: 2px solid var(--mainBorderColour);
     width: 625px;
     height: 33px;
     margin-left: 27px;
     margin-bottom: 30px;
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 17.26px;
     font-weight: bold;
     padding-left: 25px;
@@ -196,15 +194,15 @@ input::-webkit-inner-spin-button {
 
 .FetchMETAR {
     border-radius: 25px;
-    border: 2px solid #232323;
-    background-color: #161616;
+    border: 2px solid var(--orangeColour);
+    background-color: var(--orangeColour);
     width: 160px;
     height: 33px;
     margin-left: 720px;
     margin-top: -80px;
     padding-top: 13px;
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 15.5px;
     text-align: center;
     cursor: pointer;
@@ -213,15 +211,15 @@ input::-webkit-inner-spin-button {
 
 .restorePlan {
     border-radius: 25px;
-    border: 2px solid #232323;
-    background-color: #161616;
+    border: 2px solid var(--lightBlueColour);
+    background-color: var(--lightBlueColour);
     width: 110px;
     height: 33px;
     margin-left: 920px;
     margin-top: -80px;
     padding-top: 13px;
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 15.5px;
     text-align: center;
     cursor: pointer;
@@ -230,15 +228,15 @@ input::-webkit-inner-spin-button {
 
 .SavePlan {
     border-radius: 25px;
-    border: 2px solid #232323;
-    background-color: #232323;
+    border: 2px solid var(--lightGreenColour);
+    background-color: var(--lightGreenColour);
     width: 160px;
     height: 33px;
     margin-left: 720px;
     margin-top: -80px;
     padding-top: 13px;
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 16px;
     text-align: center;
     cursor: pointer;
@@ -247,15 +245,15 @@ input::-webkit-inner-spin-button {
 
 .cancelPlan {
     border-radius: 25px;
-    border: 2px solid #232323;
-    background-color: #161616;
+    border: 2px solid var(--mainBorderColour);
+    background-color: var(--mainBackgroundColour);
     width: 110px;
     height: 33px;
     margin-left: 920px;
     margin-top: -80px;
     padding-top: 13px;
-    font-family: 'Roboto', sans-serif;
-    color: white;
+    font-family: var(--mainFont);
+    color: var(--mainTextColour);
     font-size: 16px;
     text-align: center;
     cursor: pointer;
