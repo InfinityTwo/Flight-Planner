@@ -6,10 +6,13 @@ body {
 /* Side Nav Stuff */
 /*                */
 
+.sidenav, #sidenavElement-1 {
+    width: 65px;
+    position: fixed;
+}
+
 .sidenav {
     height: 100%;
-    width: 100px;
-    position: fixed;
     top: 0;
     left: 0;
     overflow-x: hidden;
@@ -19,17 +22,19 @@ body {
 }
 
 .sidenavImages {
-    text-align: center;
+    /* text-align: center; */
     top: 8px;
-    margin-top: 25px;
+    margin-top: 15px;
+    padding-left: 22px;
 }
 
 .sidenavText {
-    margin-top: 5px;
+    margin-top: -19px;
+    margin-left: 55px;
     font-family: 'Roboto', sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     color: white;
-    text-align: center;
+    opacity: 0;
 }
 
 .sidenavElement, #sidenavElement-1 {
@@ -39,28 +44,27 @@ body {
 .sidenavElement {
     padding-top: 10px;
     padding-bottom: 10px;
-    height: 80px;
+    height: 40px;
     cursor: pointer;
 }
 
 #sidenavElement-1 {
-    width: 100px;
-    position: fixed;
     bottom: 0;
 }
 
 #selectedSidenavElement {
     position: absolute;
     visibility: visible;
-    margin-left: 68px;
+    margin-left: 33px;
     margin-top: -300px;
     z-index: -1;
+    padding-top: 0px;
 }
 
 #highlightedSidenavElement {
     position: absolute;
     opacity: 0;
-    margin-left: 68px;
+    margin-left: 33px;
     margin-top: -300px;
     z-index: -1;
 }
