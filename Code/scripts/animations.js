@@ -4,101 +4,97 @@ var sideElementNumbers = {
     3: "-58px",
 };
 var currentPageSideElement = 0; // 0 is null value, -1 is last element, 1 and onwards is as logical
-var highlightedSidenavElementOpacity = false;
+var highlightedSidenavElement = false; // false is null value
 var sidebarExpanded = false;
 
 function sidebarExpand() {
-    $(".sidenav, #sidenavElement-1").stop().animate({
+    $(".sidenav, #sidenavElement-1").stop().animate({ // expands the sidenav
         "width": "140px"
     }, 250);
-    if (highlightedSidenavElementOpacity == true) {
-        $("#highlightedSidenavElement").stop().animate({
-            "marginLeft": "108px",
-            "opacity": "0"
-        }, 200);
-    } else {
-        $("#highlightedSidenavElement").stop().animate({
-            "marginLeft": "108px"
+    $(".sidenavElementInner").stop().animate({ // moves the background nav to a ui left of icon
+        "borderRadius": "5px",
+        "width": "5px",
+        "height": "30px",
+        "marginLeft": "10px",
+        "marginTop": "13px"
+    }, 200);
+    if (highlightedSidenavElement != false) {
+        highlightedSidenavElement.find(".sidenavElementInner").stop().animate({ // show colour on selected icon in case it was hovered immediately
+            "borderRadius": "5px",
+            "width": "5px",
+            "height": "30px",
+            "marginLeft": "10px",
+            "marginTop": "13px",
+            "backgroundColor": "#00638a"
         }, 200);
     };
-    $("#selectedSidenavElement").stop().animate({
-        "marginLeft": "108px"
-    }, 200);
-    $(".sidenavText").stop().animate({
+    if (currentPageSideElement == -2 || ($("#sidenavElement-2")[0]["id"] == "sidenavElement-2" && highlightedSidenavElement != false)) { // basically to keep logo coloured if on home page
+        $("#sidenavElement-2").stop().animate({
+            "backgroundColor": "#00a3e4"
+        }, 200);
+    } else {
+        $("#sidenavElement-2").stop().animate({
+            "backgroundColor": "transparent"
+        }, 200);
+    };
+    $(".sidenavText").stop().animate({ // shows text of icon
         "opacity": "1"
     }, 200);
-    highlightedSidenavElementOpacity = false;
+    highlightedSidenavElement = false;
     sidebarExpanded = true;
 };
 
 function sidebarCollapse() {
-    $(".sidenav, #sidenavElement-1").stop().animate({
+    $(".sidenav, #sidenavElement-1").stop().animate({ // collapses the sidenav
         "width": "65px"
     }, 250);
-    $("#highlightedSidenavElement").stop().animate({
-        "opacity": "0",
-        "marginLeft": "33px"
+    $(".sidenavElementInner").stop().animate({ // moves the ui left of icon to background nav
+        "borderRadius": "0px",
+        "width": "100%",
+        "height": "60px",
+        "marginLeft": "",
+        "marginTop": "0",
+        "backgroundColor": "#232323"
     }, 200);
-    $("#selectedSidenavElement").stop().animate({
-        "marginLeft": "33px"
+    if (currentPageSideElement != -2) {}
+    $("#sidenavElementInner" + String(currentPageSideElement)).stop().animate({ // keep the current page's icon selected
+        "borderRadius": "0px",
+        "width": "100%",
+        "height": "60px",
+        "marginLeft": "",
+        "marginTop": "0",
+        "backgroundColor": "#00638a"
     }, 200);
-    $(".sidenavText").stop().animate({
+    $("#sidenavElement-2").stop().animate({ // makes the logo coloured again, yay!
+        "backgroundColor": "#00a3e4"
+    }, 200);
+    $(".sidenavText").stop().animate({ // hides text of icon
         "opacity": "0"
     }, 200);
+    highlightedSidenavElement = false;
     sidebarExpanded = false;
 };
+
+function checkCurrentFile() {
+    //get current page
+    file = location.href.split("/").slice(-1)[0].split(".html")[0];
+    SideBars = [["home"], ["settings"], [], ["editplan", "newplan", "plans"], ["editequipment", "newplane", "fleet"], ["checklist"]]; // hard coded, 3rd list is empty as 0 is a null value. List starts from -2
+    for (i = -2; i < SideBars.length - 1; i++) {
+        if (SideBars[i + 2].includes(file)) {
+            currentPageSideElement = i;
+            break;
+        };
+    };
+    $("#sidenavElementInner" + String(currentPageSideElement)).css({
+        "backgroundColor": "#00638a"
+    });
+}
 
 $(document).ready(function() {
     // just to test if nothing goes wrong
     console.log("loaded");
 
-    //get current page
-    file = location.href.split("/").slice(-1)[0].split(".html")[0];
-    plansSideBar = ["editplan", "newplan", "plans"];
-    fleetSideBar = ["editequipment", "newplane", "fleet"];
-    checklistSideBar = ["checklist"];
-    settingsSideBar = ["settings"];
-    if (plansSideBar.includes(file)) {
-        // $("#selectedSidenavElement").stop().show(0, function() {});
-        // $("#selectedSidenavElement").css({
-        //     "marginTop": "-178px"
-        // });
-        $("#sidenavElementInner1").css({
-            "backgroundColor": "#00638a"
-        });
-        currentPageSideElement = 1
-    } else if (fleetSideBar.includes(file)) {
-        // $("#selectedSidenavElement").stop().show(0, function() {});
-        // $("#selectedSidenavElement").css({
-        //     "marginTop": "-118px"
-        // });
-        $("#sidenavElementInner2").css({
-            "backgroundColor": "#00638a"
-        });
-        currentPageSideElement = 2
-    } else if (checklistSideBar.includes(file)) {
-        // $("#selectedSidenavElement").stop().show(0, function() {});
-        // $("#selectedSidenavElement").css({
-        //     "marginTop": "-58px"
-        // });
-        $("#sidenavElementInner3").css({
-            "backgroundColor": "#00638a"
-        });
-        currentPageSideElement = 3
-    } else if (settingsSideBar.includes(file)) {
-        // $("#selectedSidenavElement").stop().show(0, function() {});
-        // $("#selectedSidenavElement").css({
-        //     "bottom": "0px",
-        //     "marginTop": "10px"
-        // });
-        $("#sidenavElementInner-1").css({
-            "backgroundColor": "#00638a"
-        });
-        currentPageSideElement = -1
-    };
-
-    // hides the text under the side labels
-    // $(".sidenavText, .sidenavTextLast").hide(0);
+    checkCurrentFile();
 
     // event handler of hovering sidenav
     $(".sidenav").hover(
@@ -110,14 +106,15 @@ $(document).ready(function() {
     )
     
     // event handler of hovering sidenav Logo
-    $(".sidenavElementLogo").hover(
+    $(".sidenavElement-2").hover(
         function() {
-            $("#sidenavElement-2").animate({
-                "backgroundColor": "#00a3e4"
+            $("#sidenavElement-2").stop().animate({
+                "backgroundColor": "#00638a"
             }, 200);
+            highlightedSidenavElement = $("#sidenavElement-2");
         }, function() {
-            $("#sidenavElement-2").animate({
-                "backgroundColor": "#00a3e4"
+            $("#sidenavElement-2").stop().animate({
+                "backgroundColor": "transparent"
             }, 200);
         }
     );
@@ -127,56 +124,24 @@ $(document).ready(function() {
         function() { // when hovering
             if ($(this)[0]["id"].split("sidenavElement")[1] != currentPageSideElement) { // checks for not highlighting current page
                 if ($(this)[0]["id"].split("sidenavElement")[1] != -1) { // checks for last element as that requires different change in css properties
-                    $("#highlightedSidenavElement").css({
-                        "bottom": "",
-                        "marginTop": sideElementNumbers[$(this)[0]["id"].split("sidenavElement")[1]]
-                    });
                     $(this).find(".sidenavElementInner").animate({
-                        "borderTopColor": "2px solid #00638a", 
-                        "borderLeftColor": "2px solid #00638a", 
-                        "borderRightColor": "2px solid #00638a", 
-                        "borderBottomColor": "2px solid #00638a",
-                        "backgroundColor": "#00638a",
-                        // "borderRadius": "10px",
-                        "borderSpacing": "5px"
-                    });
-                } else {
-                    $("#highlightedSidenavElement").css({
-                        "bottom": "0px",
-                        "marginTop": "3px"
-                    });
-                    $(this).find(".sidenavElementInner").animate({
-                        "borderTopColor": "2px solid #00638a", 
-                        "borderLeftColor": "2px solid #00638a", 
-                        "borderRightColor": "2px solid #00638a", 
-                        "borderBottomColor": "2px solid #00638a",
-                        "backgroundColor": "#00638a",
-                        // "borderRadius": "10px",
-                        "borderSpacing": "5px"
-                    });
+                        "backgroundColor": "#00638a"
+                    }, 100);
                 };
-                if (sidebarExpanded == true) {
-                    $("#highlightedSidenavElement").stop().animate({
-                        "marginLeft": "108px",
-                        "opacity": "0"
-                    }, 200);
-                } else {
-                    highlightedSidenavElementOpacity = true
+                if (sidebarExpanded != true) {
+                    highlightedSidenavElement = $(this)
                 };
             };
         }, function() { // when leaving hover
-            $("#highlightedSidenavElement").stop().animate({
-                "opacity": "0"
-            }, 200);
             if ($(this)[0]["id"].split("sidenavElement")[1] != currentPageSideElement) {
-                $(this).find(".sidenavElementInner").animate({
-                    "borderTopColor": "0px solid #00638a", 
-                    "borderLeftColor": "0px solid #00638a", 
-                    "borderRightColor": "0px solid #00638a", 
-                    "borderBottomColor": "0px solid #00638a",
-                    "backgroundColor": "#232323"
-                    // "borderRadius": "0px"
-                });
+                $(this).find(".sidenavElementInner").stop().animate({
+                    "backgroundColor": "#232323",
+                    "borderRadius": "5px",
+                    "width": "5px",
+                    "height": "30px",
+                    "marginLeft": "10px",
+                    "marginTop": "13px"
+                }, 100);
             };
         }
     );

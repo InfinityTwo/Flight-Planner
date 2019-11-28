@@ -6,8 +6,10 @@
 :root {
     --mainFont: 'Roboto', sans-serif;
     --mainTextColour: white;
+    --placeholderTextColour: #5D5D5D;
     --mainBackgroundColour: #161616;
     --mainBorderColour: #232323;
+    --scrollbarHighlightColour: #303030;
     --lightBlueColour: #00638a;
     --lightBlueHighlightColour: #00a3e4;
     --lightGreenColour: #3d9e00;
@@ -19,7 +21,7 @@
 /* All other CSS */
 .inputOverlayLabels {
     font-family: var(--mainFont);
-    color: #5D5D5D;
+    color: var(--placeholderTextColour);
     font-size: 17.26px;
     position: absolute;
     width: auto;
@@ -258,8 +260,4 @@ input::-webkit-inner-spin-button {
     text-align: center;
     cursor: pointer;
     position: absolute;
-}
-
-::-webkit-scrollbar {
-    width: 0px;  /* Remove scrollbar space */
 }
