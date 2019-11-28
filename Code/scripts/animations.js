@@ -96,25 +96,51 @@ $(document).ready(function() {
             sidebarCollapse();
         }
     )
+    
+    // event handler of hovering sidenav Logo
+    $(".sidenavElementLogo").hover(
+        function() {
+            $("#sidenavElement-2").animate({
+                "backgroundColor": "#00a3e4"
+            }, 200);
+        }, function() {
+            $("#sidenavElement-2").animate({
+                "backgroundColor": "#00638a"
+            }, 200);
+        }
+    );
 
     // event handler of hovering the side labels (dynamic)
     $(".sidenavElement").hover(
         function() { // when hovering
-            // $(this).css("background-color", "rgba(93, 93, 93, 0.25)"); // changes label bg colour
-            // $(this).find(".sidenavImages").stop().animate({ // moves label up
-            //     "margin-top": "14px"
-            // }, 125, function() {});
-            // $(this).find(".sidenavText").stop().show(150, function() {}); // shows text
             if ($(this)[0]["id"].split("sidenavElement")[1] != currentPageSideElement) { // checks for not highlighting current page
                 if ($(this)[0]["id"].split("sidenavElement")[1] != -1) { // checks for last element as that requires different change in css properties
                     $("#highlightedSidenavElement").css({
                         "bottom": "",
                         "marginTop": sideElementNumbers[$(this)[0]["id"].split("sidenavElement")[1]]
                     });
+                    $(this).find(".sidenavElementInner").animate({
+                        "borderTopColor": "2px solid #00638a", 
+                        "borderLeftColor": "2px solid #00638a", 
+                        "borderRightColor": "2px solid #00638a", 
+                        "borderBottomColor": "2px solid #00638a",
+                        "backgroundColor": "#00638a",
+                        "borderRadius": "10px",
+                        "borderSpacing": "5px"
+                    });
                 } else {
                     $("#highlightedSidenavElement").css({
                         "bottom": "0px",
                         "marginTop": "3px"
+                    });
+                    $(this).find(".sidenavElementInner").animate({
+                        "borderTopColor": "2px solid #00638a", 
+                        "borderLeftColor": "2px solid #00638a", 
+                        "borderRightColor": "2px solid #00638a", 
+                        "borderBottomColor": "2px solid #00638a",
+                        "backgroundColor": "#00638a",
+                        "borderRadius": "10px",
+                        "borderSpacing": "5px"
                     });
                 };
                 if (sidebarExpanded == true) {
@@ -127,14 +153,17 @@ $(document).ready(function() {
                 };
             };
         }, function() { // when leaving hover
-            // $(this).css("background-color", "rgba(30, 30, 30, 0)"); //changes label bg colour
-            // $(this).find(".sidenavImages").stop().animate({ // moves label down
-            //     "margin-top": "25px"
-            // }, 125, function() {});
-            // $(this).find(".sidenavText").stop().hide(275, function() {}); // hides text
             $("#highlightedSidenavElement").stop().animate({
                 "opacity": "0"
             }, 200);
+            $(this).find(".sidenavElementInner").animate({
+                "borderTopColor": "0px solid #00638a", 
+                "borderLeftColor": "0px solid #00638a", 
+                "borderRightColor": "0px solid #00638a", 
+                "borderBottomColor": "0px solid #00638a",
+                "backgroundColor": "transparent"
+                // "borderRadius": "0px"
+            });
         }
     );
 
@@ -150,5 +179,8 @@ $(document).ready(function() {
     });
     $("#sidenavElement-1").click(function() {
         window.location = "settings.html";
+    });
+    $("#sidenavElement-2").click(function() {
+        window.location = "home.html";
     });
 })

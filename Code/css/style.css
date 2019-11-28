@@ -21,11 +21,28 @@ body {
     z-index: 10;
 }
 
+#sidenavElement-2 {
+    background-color: #00638a;
+}
+
+.sidenavElementInner {
+    width: 90%;
+    height: 100%;
+    margin-left: 5%;
+    margin-top: -10px;
+}
+
 .sidenavImages {
-    /* text-align: center; */
     top: 8px;
     margin-top: 15px;
     padding-left: 22px;
+    padding-top: 12px;
+}
+
+#sidenavImages-2 {
+    padding-left: 16px;
+    margin-top: 5px;
+    padding-top: 0px;
 }
 
 .sidenavText {
@@ -37,11 +54,16 @@ body {
     opacity: 0;
 }
 
-.sidenavElement, #sidenavElement-1 {
+#sidenavText-2 {
+    margin-top: -34px;
+    margin-left: 65px;
+}
+
+.sidenavElement, #sidenavElement-1, .sidenavElementLogo {
     z-index: 1;
 }
 
-.sidenavElement {
+.sidenavElement, .sidenavElementLogo {
     padding-top: 10px;
     padding-bottom: 10px;
     height: 40px;
