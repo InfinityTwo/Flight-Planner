@@ -14,7 +14,7 @@ function sidebarExpand() {
     if (highlightedSidenavElementOpacity == true) {
         $("#highlightedSidenavElement").stop().animate({
             "marginLeft": "108px",
-            "opacity": "1"
+            "opacity": "0"
         }, 200);
     } else {
         $("#highlightedSidenavElement").stop().animate({
@@ -59,28 +59,40 @@ $(document).ready(function() {
     checklistSideBar = ["checklist"];
     settingsSideBar = ["settings"];
     if (plansSideBar.includes(file)) {
-        $("#selectedSidenavElement").stop().show(0, function() {});
-        $("#selectedSidenavElement").css({
-            "marginTop": "-178px"
+        // $("#selectedSidenavElement").stop().show(0, function() {});
+        // $("#selectedSidenavElement").css({
+        //     "marginTop": "-178px"
+        // });
+        $("#sidenavElementInner1").css({
+            "backgroundColor": "#00638a"
         });
         currentPageSideElement = 1
     } else if (fleetSideBar.includes(file)) {
-        $("#selectedSidenavElement").stop().show(0, function() {});
-        $("#selectedSidenavElement").css({
-            "marginTop": "-118px"
+        // $("#selectedSidenavElement").stop().show(0, function() {});
+        // $("#selectedSidenavElement").css({
+        //     "marginTop": "-118px"
+        // });
+        $("#sidenavElementInner2").css({
+            "backgroundColor": "#00638a"
         });
         currentPageSideElement = 2
     } else if (checklistSideBar.includes(file)) {
-        $("#selectedSidenavElement").stop().show(0, function() {});
-        $("#selectedSidenavElement").css({
-            "marginTop": "-58px"
+        // $("#selectedSidenavElement").stop().show(0, function() {});
+        // $("#selectedSidenavElement").css({
+        //     "marginTop": "-58px"
+        // });
+        $("#sidenavElementInner3").css({
+            "backgroundColor": "#00638a"
         });
         currentPageSideElement = 3
     } else if (settingsSideBar.includes(file)) {
-        $("#selectedSidenavElement").stop().show(0, function() {});
-        $("#selectedSidenavElement").css({
-            "bottom": "0px",
-            "marginTop": "10px"
+        // $("#selectedSidenavElement").stop().show(0, function() {});
+        // $("#selectedSidenavElement").css({
+        //     "bottom": "0px",
+        //     "marginTop": "10px"
+        // });
+        $("#sidenavElementInner-1").css({
+            "backgroundColor": "#00638a"
         });
         currentPageSideElement = -1
     };
@@ -105,7 +117,7 @@ $(document).ready(function() {
             }, 200);
         }, function() {
             $("#sidenavElement-2").animate({
-                "backgroundColor": "#00638a"
+                "backgroundColor": "#00a3e4"
             }, 200);
         }
     );
@@ -125,7 +137,7 @@ $(document).ready(function() {
                         "borderRightColor": "2px solid #00638a", 
                         "borderBottomColor": "2px solid #00638a",
                         "backgroundColor": "#00638a",
-                        "borderRadius": "10px",
+                        // "borderRadius": "10px",
                         "borderSpacing": "5px"
                     });
                 } else {
@@ -139,14 +151,14 @@ $(document).ready(function() {
                         "borderRightColor": "2px solid #00638a", 
                         "borderBottomColor": "2px solid #00638a",
                         "backgroundColor": "#00638a",
-                        "borderRadius": "10px",
+                        // "borderRadius": "10px",
                         "borderSpacing": "5px"
                     });
                 };
                 if (sidebarExpanded == true) {
                     $("#highlightedSidenavElement").stop().animate({
                         "marginLeft": "108px",
-                        "opacity": "1"
+                        "opacity": "0"
                     }, 200);
                 } else {
                     highlightedSidenavElementOpacity = true
@@ -156,14 +168,16 @@ $(document).ready(function() {
             $("#highlightedSidenavElement").stop().animate({
                 "opacity": "0"
             }, 200);
-            $(this).find(".sidenavElementInner").animate({
-                "borderTopColor": "0px solid #00638a", 
-                "borderLeftColor": "0px solid #00638a", 
-                "borderRightColor": "0px solid #00638a", 
-                "borderBottomColor": "0px solid #00638a",
-                "backgroundColor": "transparent"
-                // "borderRadius": "0px"
-            });
+            if ($(this)[0]["id"].split("sidenavElement")[1] != currentPageSideElement) {
+                $(this).find(".sidenavElementInner").animate({
+                    "borderTopColor": "0px solid #00638a", 
+                    "borderLeftColor": "0px solid #00638a", 
+                    "borderRightColor": "0px solid #00638a", 
+                    "borderBottomColor": "0px solid #00638a",
+                    "backgroundColor": "#232323"
+                    // "borderRadius": "0px"
+                });
+            };
         }
     );
 
