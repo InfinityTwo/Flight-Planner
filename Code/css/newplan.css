@@ -19,6 +19,125 @@
 }
 
 /* All other CSS */
+.mainContent {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.rows {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+/* Resize Compatibility */
+@media (min-width: 1300px) {
+    .fleetbox {
+        width: calc(100vw - 920px);
+    }
+
+    .rightmain {
+        padding-left: 104px;
+    }
+
+    .METARbox {
+        width: calc(100vw - 1145px);
+    }
+
+    .FetchMETAR, .NewButton {
+        margin-left: calc(100vw - 1050px);
+    }
+
+    .inputType3 { 
+        width: 320px;
+    }
+
+    .inputType4, .inputType5 {
+        width: 450px;
+    }
+}
+
+@media (max-width: 1300px) and (min-width: 750px) {
+    .mainContent {
+        flex-direction: column;
+    }   
+
+    .fleetbox {
+        width: 500px;
+    }
+    
+    .rightmain {
+        padding-left: 143px;
+    }
+
+    .METARbox {
+        width: 245px;
+    }
+
+    .FetchMETAR, .NewButton {
+        margin-left: 360px;
+    }
+
+    .inputType3 { 
+        width: 320px;
+    }
+
+    .inputType4, .inputType5 {
+        width: 450px;
+    }
+}
+
+@media (max-width: 750px) and (min-width: 480px) {
+    .fleetbox {
+        width: calc(100vw - 250px)
+    }
+
+    .rightmain {
+        padding-left: 143px;
+    }
+
+    .METARbox {
+        width: calc(100vw - 505px);
+    }
+
+    .FetchMETAR, .NewButton {
+        margin-left: calc(100vw - 390px);
+    }
+
+    .rows {
+        flex-direction: column;
+    }
+
+    .inputType3 { 
+        width: 320px;
+    }
+
+    .inputType4, .inputType5 {
+        width: calc(100vw - 300px);
+    }
+}
+
+@media (max-width: 570px) and (min-width: 480px) {
+    .inputType3 { 
+        width: calc(100vw - 250px);
+    }
+}
+
+@media (max-width: 480px) {
+    .inputType3 { 
+        width: 230px;
+    }
+
+    .inputType5, .inputType4 { 
+        width: 180px;
+    }
+
+    .rightmain {
+        padding-left: 143px;
+    }
+}
+
 .inputOverlayLabels {
     font-family: var(--mainFont);
     color: var(--placeholderTextColour);
@@ -103,7 +222,7 @@
 .inputType4, .inputType5 { /* Similar properties for all inputTypes 4 - 5 */
     resize: none;
     padding: 16px 25px 16px 25px;
-    width: 450px; /* Deduction from padding of 25px x 2 */
+    /* width: 450px; Deduction from padding of 25px x 2 */
     height: 23px; /* Deduction from padding of 16px x 2 */
 }
 
@@ -116,7 +235,7 @@
 }
 
 .inputType3 { /* Two thirds of a row */
-    width: 320px;
+    /* width: 320px; */
 }
 
 .inputType4 { /* Route */
@@ -138,11 +257,6 @@ input::-webkit-inner-spin-button {
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-.rightmain {
-    padding-left: 813px; /* Supposed to be 70px from the sidebar */
-    margin-top: -947px;
-}
-
 #flightdetails {
     font-family: var(--mainFont);
     color: var(--mainTextColour);
@@ -162,7 +276,7 @@ input::-webkit-inner-spin-button {
 .fleetbox {
     border-radius: 25px;
     border: 2px solid var(--mainBorderColour);
-    width: 1000px;
+    /* width: calc(100vw - 920px); */
     height: 600px;
     margin-left: 27px;
 }
@@ -197,7 +311,6 @@ input::-webkit-inner-spin-button {
 .METARbox {
     border-radius: 25px;
     border: 2px solid var(--mainBorderColour);
-    width: 775px;
     height: 33px;
     margin-left: 27px;
     margin-bottom: 30px;
@@ -218,7 +331,6 @@ input::-webkit-inner-spin-button {
     background-color: var(--orangeColour);
     width: 160px;
     height: 33px;
-    margin-left: 870px;
     margin-top: -80px;
     padding-top: 13px;
     font-family: var(--mainFont);
@@ -235,7 +347,6 @@ input::-webkit-inner-spin-button {
     background-color: var(--lightBlueColour);
     width: 160px;
     height: 33px;
-    margin-left: 870px;
     margin-top: -80px;
     padding-top: 13px;
     font-family: var(--mainFont);

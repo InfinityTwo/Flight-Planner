@@ -19,6 +19,93 @@
 }
 
 /* All other CSS */
+.mainContent {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.rows {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+/* Resize Compatibility */
+@media (min-width: 1300px) {
+    .fleetbox {
+        width: calc(100vw - 920px);
+    }
+
+    .rightmain {
+        padding-left: 104px;
+    }
+
+    .METARbox {
+        width: calc(100vw - 1295px);
+    }
+
+    .FetchMETAR, .SavePlan {
+        margin-left: calc(100vw - 1200px);
+    }
+
+    .cancelPlan, .restorePlan {
+        margin-left: calc(100vw - 1000px);
+    }
+}
+
+@media (max-width: 1300px) and (min-width: 750px) {
+    .mainContent {
+        flex-direction: column;
+    }   
+
+    .fleetbox {
+        width: 500px;
+    }
+    
+    .rightmain {
+        padding-left: 143px;
+    }
+
+    .METARbox {
+        width: 120px;
+    }
+
+    .FetchMETAR, .SavePlan {
+        margin-left: 210px;
+    }
+
+    .cancelPlan, .restorePlan {
+        margin-left: 410px;
+    }
+}
+
+@media (max-width: 750px) {
+    .fleetbox {
+        width: calc(100vw - 250px)
+    }
+
+    .rightmain {
+        padding-left: 143px;
+    }
+
+    .METARbox {
+        width: calc(100vw - 630px);
+    }
+
+    .FetchMETAR, .SavePlan {
+        margin-left: calc(100vw - 540px);
+    }
+
+    .rows {
+        flex-direction: column;
+    }
+
+    .cancelPlan, .restorePlan {
+        margin-left: calc(100vw - 340px);
+    }
+}
+
 .inputOverlayLabels {
     font-family: var(--mainFont);
     color: var(--placeholderTextColour);
@@ -120,11 +207,6 @@ input::-webkit-inner-spin-button {
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-.rightmain {
-    padding-left: 813px; /* Supposed to be 70px from the sidebar */
-    margin-top: -947px;
-}
-
 #flightdetails {
     font-family: var(--mainFont);
     color: var(--mainTextColour);
@@ -144,7 +226,6 @@ input::-webkit-inner-spin-button {
 .fleetbox {
     border-radius: 25px;
     border: 2px solid var(--mainBorderColour);
-    width: 1000px;
     height: 600px;
     margin-left: 27px;
 }
@@ -179,7 +260,6 @@ input::-webkit-inner-spin-button {
 .METARbox {
     border-radius: 25px;
     border: 2px solid var(--mainBorderColour);
-    width: 625px;
     height: 33px;
     margin-left: 27px;
     margin-bottom: 30px;
@@ -200,7 +280,6 @@ input::-webkit-inner-spin-button {
     background-color: var(--orangeColour);
     width: 160px;
     height: 33px;
-    margin-left: 720px;
     margin-top: -80px;
     padding-top: 13px;
     font-family: var(--mainFont);
@@ -217,7 +296,6 @@ input::-webkit-inner-spin-button {
     background-color: var(--lightBlueColour);
     width: 110px;
     height: 33px;
-    margin-left: 920px;
     margin-top: -80px;
     padding-top: 13px;
     font-family: var(--mainFont);
@@ -234,7 +312,6 @@ input::-webkit-inner-spin-button {
     background-color: var(--lightGreenColour);
     width: 160px;
     height: 33px;
-    margin-left: 720px;
     margin-top: -80px;
     padding-top: 13px;
     font-family: var(--mainFont);
@@ -251,7 +328,6 @@ input::-webkit-inner-spin-button {
     background-color: var(--mainBackgroundColour);
     width: 110px;
     height: 33px;
-    margin-left: 920px;
     margin-top: -80px;
     padding-top: 13px;
     font-family: var(--mainFont);

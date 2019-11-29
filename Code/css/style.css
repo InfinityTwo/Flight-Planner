@@ -23,9 +23,32 @@ body {
 /*                */
 /* 1 -> infinity is the element's number, 0 is null (unused), -1 is the last element, -2 is the logo element */
 
+/* Clock Properties */
+#sidenavTimer, #sidenavTimerUTC {
+    color: var(--mainTextColour);
+    font-family: var(--mainFont);
+    z-index: 20;
+    border: 0px solid var(--mainBackgroundColour);;
+    background: var(--mainBackgroundColour);
+    font-weight: bold;
+}
+
+#sidenavTimer {
+    padding-top: 10px;
+    padding-left: 22.5%;
+    font-size: 1.1rem;
+    outline: none;
+}
+
+#sidenavTimerUTC {
+    padding-top: 0px;
+    padding-left: 35%;
+    font-size: 0.7rem;
+}
+
 /* Main sidenav Parent */
 .sidenav, #sidenavElement-1 {
-    width: 65px;
+    width: 80px;
     position: fixed;
 }
 
@@ -37,6 +60,11 @@ body {
     background-color: var(--mainBackgroundColour);
     box-shadow: 5px 0px 10px -5px black;
     z-index: 10;
+}
+
+#sidenavElement0 {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 /* background of each element of sidenav */
@@ -57,12 +85,12 @@ body {
 .sidenavImages {
     top: 8px;
     /* margin-top: 15px; */
-    padding-left: 25px;
+    padding-left: 32.5px;
     padding-top: 20px;
 }
 
 #sidenavImages-2 {
-    padding-left: 16px;
+    padding-left: 25px;
     margin-top: 10px;
     padding-top: 0px;
 }
@@ -74,7 +102,7 @@ body {
 /* Text of each element in sidenav */
 .sidenavText {
     margin-top: -20px;
-    margin-left: 55px;
+    margin-left: 62.5px;
     font-family: var(--mainFont);
     font-size: 13px;
     color: white;
@@ -82,7 +110,7 @@ body {
 }
 
 #sidenavText-2 {
-    margin-top: -34px;
+    margin-top: -27px;
     margin-left: 65px;
 }
 
@@ -96,10 +124,6 @@ body {
     cursor: pointer;
 }
 
-/* #sidenavElement1 {
-    margin-top: -50px;
-} */
-
 #sidenavElement-2 {
     padding-top: 10px;
     background-color: var(--lightBlueHighlightColour);
@@ -109,32 +133,15 @@ body {
     bottom: 0;
 }
 
-/* Selected and highlighted element to show moves as required */
-/* #selectedSidenavElement {
-    position: absolute;
-    visibility: visible;
-    margin-left: 33px;
-    margin-top: -300px;
-    z-index: -1;
-    padding-top: 0px;
-}
-
-#highlightedSidenavElement {
-    position: absolute;
-    opacity: 0;
-    margin-left: 33px;
-    margin-top: -300px;
-    z-index: -1;
-} */
-
-/* Scrollbars */
+/* Scrollbars. All the following options except first is not required unless showing scrollbar */
 ::-webkit-scrollbar {
-    width: 7.5px;
-    height: 7.5px;
+    width: 0px;
+    height: 0px;
 }
 
 ::-webkit-scrollbar-track {
     background: var(--mainBackgroundColour);
+    z-index: -20;
 }
 
 ::-webkit-scrollbar-thumb {

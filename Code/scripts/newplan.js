@@ -390,9 +390,17 @@ $(document).ready(function() {
             while (Route.length > 1) {
                 for (i = 0; i < Route.length - 1; i++) {
                     if (Route[1][0] != "F") {
-                        Route[1] = Route[1].slice(Route[1].indexOf("F"), Route[1].length);
+                        if (Route[1].includes("F")) {
+                            Route[1] = Route[1].slice(Route[1].indexOf("F"), Route[1].length);
+                        } else {
+                            Route[1] = ""
+                        };
                     };
-                    Route[1] = Route[0] + "/" + Route[1];
+                    if (Route[1] != "") {
+                        Route[1] = Route[0] + "/" + Route[1];
+                    } else {
+                        Route[1] = Route[0]
+                    };
                     Route = Route.slice(1, Route.length);
                 };
             };
@@ -400,7 +408,7 @@ $(document).ready(function() {
             Route = String(Route).split(" ");
             var toPurge = [];
             var lastAltitude = String(document.getElementById("Cruise").value);
-            lastAltitude = lastAltitude.slice(0, lastAltitude.length - 2);
+            lastAltitude = lastAltitude.slice(2, lastAltitude.length);
             for (i = 0; i < Route.length; i++) {
                 if ((Route[i].indexOf("/F") != -1) && (i != 0 || i != Route.length - 1)) {
                     if (Route[i - 1] == Route[i + 1] && parseInt(Route[i].slice(Route[i].indexOf("/F") + 2, Route[i].length)) == parseInt(lastAltitude)) {
