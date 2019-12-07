@@ -1,2 +1,2 @@
 @ECHO OFF
-cmd.exe /K "cd C:\Users\Infinity\Desktop\Flight Planner"
+cmd.exe /K "cd C:\Users\Infinity\Desktop\InfinityTwoProjects\Flight Planner"

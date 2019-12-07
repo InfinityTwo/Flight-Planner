@@ -8,7 +8,7 @@ var highlightedSidenavElement = false; // false is null value
 var sidebarExpanded = false;
 var timeFormat = 0 // 0 for UTC, 1 for local
 
-function getTime(length, format) { // length of 0 returns timeNow, length of 1 returns timeNowShort
+function getTime(length, format) { // length of 0 returns timeNow, length of 1 returns timeNowShort (Basically without seconds, just hour and minutes), format says 0 for UTC, 1 for local
     if (length == 0 && format == 0) {
         return new Date().toUTCString().substr(17, 8);
     } else if (length == 1 && format == 0) {

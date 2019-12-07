@@ -292,7 +292,7 @@ $(document).ready(function() {
 
     $("#Date").dblclick(function() {
         var date = new Date();
-        date = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+        date = date.getDate() + "/" + String(parseInt(date.getMonth() + 1)) + "/" + date.getFullYear();
         document.getElementById("Date").value = date;
         setOverlayUp($("#Date"));
     })
@@ -356,7 +356,7 @@ $(document).ready(function() {
             }
             if (document.getElementById("Date").value.length == 0) {
                 var date = new Date();
-                date = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+                date = date.getDate() + "/" + String(parseInt(date.getMonth() + 1)) + "/" + date.getFullYear();
                 document.getElementById("Date").value = date;
                 overlayUpAndNormalBorder($("#Date"));
             }
