@@ -139,7 +139,10 @@ function sidebarCollapse() {
 function checkCurrentFile() {
     //get current page
     file = location.href.split("/").slice(-1)[0].split(".html")[0];
-    SideBars = [["home"], ["settings"], [], ["editplan", "newplan", "plans"], ["editequipment", "newplane", "fleet"], ["checklist"]]; // hard coded, 3rd list is empty as 0 is timer. List starts from -2
+    if (file == "") {
+        file = "index";
+    };
+    SideBars = [["index"], ["settings"], [], ["editplan", "newplan", "plans"], ["editequipment", "newplane", "fleet"], ["checklist"]]; // hard coded, 3rd list is empty as 0 is timer. List starts from -2
     for (i = -2; i < SideBars.length - 1; i++) {
         if (SideBars[i + 2].includes(file)) {
             currentPageSideElement = i;
@@ -247,6 +250,6 @@ $(document).ready(function() {
         window.location = "settings.html";
     });
     $("#sidenavElement-2").click(function() {
-        window.location = "home.html";
+        window.location = "/";
     });
 })
