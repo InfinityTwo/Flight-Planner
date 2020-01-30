@@ -1,0 +1,16 @@
+; ISA displays -0 instead of 0
+;; if the next / has a DCT afterward, the waypoint and DCT is removed
+;; route scroll is too much
+;; remarks click placeholder does not animate consistently
+; vertical spacing too large, requiring scroll for bookmarks displayed and chrome canary
+;; hovering an unselected sidenav causes the grey-blue highlight to appear to the left
+;; airport name after icao code
+
+vspeeds calculator link after selecting a320
+;; show estimated flight time
+;; fill cargo and pax if empty automatically in simbrief fetch
+show late/early times compared to scheduled
+NAT track waypoints
+;; grey text on side options that are not selected or hovered
+fetch simbrief becomes unclickable until data is received or timeout
+google login and security

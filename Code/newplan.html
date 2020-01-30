@@ -38,7 +38,7 @@
                     <div class = "sidenavImages">
                         <img src = "images/Log.png">
                     </div>
-                    <div class = "sidenavText">
+                    <div class = "sidenavText" id = "sidenavText1">
                         <strong>Logbook</strong>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                     <div class = "sidenavImages">
                         <img src = "images/Fleet.png">
                     </div>
-                    <div class = "sidenavText">
+                    <div class = "sidenavText" id = "sidenavText2">
                         <strong>Fleet</strong>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                     <div class = "sidenavImages">
                         <img src = "images/Checklist.png">
                     </div>
-                    <div class = "sidenavText">
+                    <div class = "sidenavText" id = "sidenavText3">
                         <strong>Checklist</strong>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                     <div class = "sidenavImages" id = "sidenavImages-1">
                         <img src = "images/Settings.png">
                     </div>
-                    <div class = "sidenavText">
+                    <div class = "sidenavText" id = "sidenavText-1">
                         <strong>Settings</strong>
                     </div>
                 </div>
@@ -162,40 +162,15 @@
                     <!-- Row 7 -->
                     <div class = "rows">
                         <div>
-                            <label class = "inputOverlayLabels">Route</label>
-                            <textarea class = "inputType4" rows = "90px" id = "Route"  spellcheck="false" autocomplete="off" autocorrect="off"></textarea>
+                            <label class = "inputOverlayLabels">Estimated Flight Time</label>
+                            <input type = "text" class = "inputType6" id = "ETE" spellcheck="false" autocomplete="off" autocorrect="off" disabled>
                         </div>
-                    </div>
-                    <div id = "postflight">
-                        <strong>Post-Flight</strong>
                     </div>
                     <!-- Row 8 -->
                     <div class = "rows">
                         <div>
-                            <label class = "inputOverlayLabels">Actual Departure Time</label>
-                            <input type = "text" class = "inputType1" id = "ADepTime" spellcheck="false" autocomplete="off" autocorrect="off">
-                        </div>
-                        <div>
-                            <label class = "inputOverlayLabels">Actual Arrival Time</label>
-                            <input type = "text" class = "inputType1" id = "AArrTime" spellcheck="false" autocomplete="off" autocorrect="off">
-                        </div>
-                    </div>
-                    <!-- Row 9 -->
-                    <div class = "rows">
-                        <div>
-                            <label class = "inputOverlayLabels">Flight Time</label>
-                            <input type = "text" class = "inputType1" id = "FT" spellcheck="false" autocomplete="off" autocorrect="off" disabled>
-                        </div>
-                        <div>
-                            <label class = "inputOverlayLabels">Landing Rate</label>
-                            <input type = "text" class = "inputType1" id = "LR" spellcheck="false" autocomplete="off" autocorrect="off">
-                        </div>
-                    </div>
-                    <!-- Row 10 -->
-                    <div class = "rows">
-                        <div>
-                            <label class = "inputOverlayLabels">Remarks</label>
-                            <textarea class = "inputType5" rows = "60px" id = "RMK" spellcheck="false" autocomplete="off" autocorrect="off"></textarea>
+                            <label class = "inputOverlayLabels">Route</label>
+                            <textarea class = "inputType4" rows = "90px" id = "Route"  spellcheck="false" autocomplete="off" autocorrect="off"></textarea>
                         </div>
                     </div>
                 </div>
@@ -209,30 +184,66 @@
                         <strong>Fleet</strong>
                     </div>
                     <div class = "fleetbox">
-
+                        
                     </div>
                     <!-- METAR -->
-                    <div id = "METARtext">
-                        <strong>METARs</strong>
+                    <div id = "mainMETARDiv">
+                        <div id = "METARtext">
+                            <strong>METARs</strong>
+                        </div>
+                        <div>
+                            <div class = "METARDep">
+                                <strong>Departure</strong>
+                            </div>
+                            <div class = "METARbox" id = "METARbox1">
+                                
+                            </div>
+                            <div class = "FetchMETAR">
+                                <strong>Fetch METAR</strong>
+                            </div>
+                            <div class = "METARArr">
+                                <strong>Arrival</strong>
+                            </div>
+                            <div class = "METARbox" id = "METARbox2">
+                                
+                            </div>
+                            <div class = "NewButton" id = "NewButtonID">
+                                <strong>Set Up Plan</strong>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <div class = "METARDep">
-                            <strong>Departure</strong>
+                </div>
+                <div class = "postflightmain">
+                    <div id = "postflight">
+                        <strong>Post-Flight</strong>
+                    </div>
+                    <!-- Row 9 -->
+                    <div class = "rows">
+                        <div>
+                            <label class = "inputOverlayLabels">Actual Departure Time</label>
+                            <input type = "text" class = "inputType1" id = "ADepTime" spellcheck="false" autocomplete="off" autocorrect="off">
                         </div>
-                        <div class = "METARbox" id = "METARbox1">
-
+                        <div>
+                            <label class = "inputOverlayLabels">Actual Arrival Time</label>
+                            <input type = "text" class = "inputType1" id = "AArrTime" spellcheck="false" autocomplete="off" autocorrect="off">
                         </div>
-                        <div class = "FetchMETAR">
-                            <strong>Fetch METAR</strong>
+                    </div>
+                    <!-- Row 10 -->
+                    <div class = "rows">
+                        <div>
+                            <label class = "inputOverlayLabels">Flight Time</label>
+                            <input type = "text" class = "inputType1" id = "FT" spellcheck="false" autocomplete="off" autocorrect="off" disabled>
                         </div>
-                        <div class = "METARArr">
-                            <strong>Arrival</strong>
+                        <div>
+                            <label class = "inputOverlayLabels">Landing Rate</label>
+                            <input type = "text" class = "inputType1" id = "LR" spellcheck="false" autocomplete="off" autocorrect="off">
                         </div>
-                        <div class = "METARbox" id = "METARbox2">
-                            
-                        </div>
-                        <div class = "NewButton" id = "NewButtonID">
-                            <strong>Set Up Plan</strong>
+                    </div>
+                    <!-- Row 11 -->
+                    <div class = "rows" id = "row11">
+                        <div>
+                            <label class = "inputOverlayLabels">Remarks</label>
+                            <textarea class = "inputType5" rows = "60px" id = "RMK" spellcheck="false" autocomplete="off" autocorrect="off"></textarea>
                         </div>
                     </div>
                 </div>

@@ -32,9 +32,14 @@
 }
 
 /* Resize Compatibility */
-@media (min-width: 1300px) {
+@media (min-width: 1550px) {
     .fleetbox {
         width: calc(100vw - 920px);
+    }
+
+    .postflightmain {
+        margin-left: 840px;
+        margin-top: -425px;
     }
 
     .rightmain {
@@ -52,15 +57,41 @@
     .cancelPlan, .restorePlan {
         margin-left: calc(100vw - 1000px);
     }
+
+    .inputType3 { 
+        width: 320px;
+    }
+
+    .inputType4, .inputType5, .inputType6 {
+        width: 450px;
+    }
+
+    .inputType5 {
+        width: calc(100vw - 1520px);
+    }
+
+    #row11 {
+        margin-left: 550px;
+        margin-top: -150px;
+    }
+
+    #mainMETARDiv {
+        margin-top: 240px;
+    }
 }
 
-@media (max-width: 1300px) and (min-width: 750px) {
+@media (max-width: 1550px) and (min-width: 750px) {
     .mainContent {
         flex-direction: column;
     }   
 
     .fleetbox {
         width: 500px;
+    }
+    
+    .postflightmain {
+        padding-left: 143px;
+        margin-top: -575px;
     }
     
     .rightmain {
@@ -78,11 +109,28 @@
     .cancelPlan, .restorePlan {
         margin-left: 410px;
     }
+
+    .inputType3 { 
+        width: 320px;
+    }
+
+    .inputType4, .inputType5, .inputType6 {
+        width: 450px;
+    }
+
+    #mainMETARDiv {
+        margin-top: 400px;
+    }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 750px) and (min-width: 480px) {
     .fleetbox {
         width: calc(100vw - 250px)
+    }
+
+    .postflightmain {
+        padding-left: 143px;
+        margin-top: -575px;
     }
 
     .rightmain {
@@ -103,6 +151,38 @@
 
     .cancelPlan, .restorePlan {
         margin-left: calc(100vw - 340px);
+    }
+
+    .inputType3 { 
+        width: 320px;
+    }
+
+    .inputType4, .inputType5, .inputType6 {
+        width: calc(100vw - 300px);
+    }
+
+    #mainMETARDiv {
+        margin-top: 400px;
+    }
+}
+
+@media (max-width: 570px) and (min-width: 480px) {
+    .inputType3 { 
+        width: calc(100vw - 250px);
+    }
+}
+
+@media (max-width: 480px) {
+    .inputType3 { 
+        width: 230px;
+    }
+
+    .inputType4, .inputType5, .inputType6 { 
+        width: 180px;
+    }
+
+    .rightmain {
+        padding-left: 143px;
     }
 }
 
@@ -150,7 +230,7 @@
     margin-top: -5px;
 }
 
-.inputType1, .inputType2, .inputType3, .inputType4, .inputType5 { /* Similar properties for all inputTypes */
+.inputType1, .inputType2, .inputType3, .inputType4, .inputType5, .inputType6 { /* Similar properties for all inputTypes */
     font-family: var(--mainFont);
     color: var(--mainTextColour);
     font-size: 17.26px;
@@ -169,11 +249,12 @@
     text-transform: uppercase;
 }
 
-.inputType4, .inputType5 { /* Similar properties for all inputTypes 4 - 5 */
+.inputType4, .inputType5, .inputType6 { /* Similar properties for all inputTypes 4 - 5 */
     resize: none;
     padding: 16px 25px 16px 25px;
-    width: 450px; /* Deduction from padding of 25px x 2 */
-    height: 23px; /* Deduction from padding of 16px x 2 */
+    /* width: 450px; Deduction from padding of 25px x 2 */
+    height: 90px; /* Deduction from padding of 16px x 2 */
+    overflow: auto;
 }
 
 .inputType1 { /* Half of a row */
@@ -185,19 +266,26 @@
 }
 
 .inputType3 { /* Two thirds of a row */
-    width: 320px;
+    /* width: 320px; */
 }
 
 .inputType4 { /* Route */
     text-transform: uppercase;
+    height: 175px;
 }
 
 .inputType5 { /* Remarks */
 
 }
 
-#FT, .METARbox, #Equipment {
+.inputType6 { /* Estimated Flight Time */
+    height: 15px;
+    /* text-align: center; */
+}
+
+#FT, .METARbox, #Equipment, .inputType6 {
     cursor: not-allowed;
+    border: 2px dashed var(--mainBorderColour);
 }
 
 input::-webkit-outer-spin-button,
@@ -226,7 +314,7 @@ input::-webkit-inner-spin-button {
 .fleetbox {
     border-radius: 25px;
     border: 2px solid var(--mainBorderColour);
-    height: 600px;
+    height: 300px;
     margin-left: 27px;
 }
 
@@ -241,20 +329,22 @@ input::-webkit-inner-spin-button {
 
 .METARDep {
     font-family: var(--mainFont);
-    color: var(--mainTextColour);
+    color: var(--placeholderTextColour);
     font-size: 17px;
-    padding-top: 13px;
-    margin-left: -80px;
+    margin-left: 55px;
+    margin-top: 13px;
     position: absolute;
+    background-color: var(--mainBackgroundColour);
 }
 
 .METARArr {
     font-family: var(--mainFont);
-    color: var(--mainTextColour);
+    color: var(--placeholderTextColour);
     font-size: 17px;
-    padding-top: 13px;
-    margin-left: -50px;
+    margin-left: 55px;
+    margin-top: 13px;   
     position: absolute;
+    background-color: var(--mainBackgroundColour);
 }
 
 .METARbox {

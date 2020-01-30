@@ -105,13 +105,14 @@ body {
     margin-left: 62.5px;
     font-family: var(--mainFont);
     font-size: 13px;
-    color: white;
+    color: var(--placeholderTextColour);
     opacity: 0;
 }
 
 #sidenavText-2 {
     margin-top: -27px;
     margin-left: 65px;
+    color: white;
 }
 
 /* Actual Elements of sidenav */

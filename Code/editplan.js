@@ -23,11 +23,13 @@ var inputTypeListToCheckValue = {
     "DepTime": [5, 0], 
     "Winds": [3, 2], 
     "ArrTime": [5, 0], 
+    "ETE": [1, 0],
     "Route": [1, 0], 
     "ADepTime": [4, 1], 
     "AArrTime": [4, 1], 
     "FT": [1, 0], 
-    "LR": [1, 1] 
+    "LR": [1, 1],
+    "RMK": [0, 0]
 }; // The first digit in the array is the minimum length, second digit represents the following: 0 - Nothing else to check, 1 - Check integer, 2 - Check integer with strip
 
 // functions
@@ -108,7 +110,10 @@ function redToNormalBorder(inputType) {
     };
 };
 
-function checkTimeInputValidity(inputValue, lastclickedValue) {
+function checkTimeInputValidity(inputValue, lastclickedValue, estimatedOrReal) {
+    if (estimatedOrReal == 0) {
+        inputValue = inputValue.substr(0, 4);
+    };
     try { // try parseInt to make sure it is integer type and not string
         parseInt(lastclickedValue);
     }
@@ -118,25 +123,39 @@ function checkTimeInputValidity(inputValue, lastclickedValue) {
     return (false == (inputValue.length == 4 && parseInt(lastclickedValue.slice(0, 1)) <= 2 && parseInt(lastclickedValue.slice(2, 3)) <= 5)); // returns false if all conditions are met. return true if any condition fails
 };
 
-function timeCalculator(lastClickedItem, otherInput, lastClickedID, otherID) {
-    if (checkTimeInputValidity(document.getElementById(lastClickedID).value, lastClickedItem.value) == true) { // check last edited time value
+function timeCalculator(lastClickedItem, otherInput, lastClickedID, otherID, estimatedOrReal) {
+    if (estimatedOrReal == 1) {
+        arrTimeElement = "AArrTime";
+        depTimeElement = "ADepTime";
+        flightTimeElement = "FT";
+    } else {
+        arrTimeElement = "ArrTime";
+        depTimeElement = "DepTime";
+        flightTimeElement = "ETE";
+    };
+    if (checkTimeInputValidity(document.getElementById(lastClickedID).value, lastClickedItem.value, estimatedOrReal) == true) { // check last edited time value
         redBorder(lastClicked);
-    } else if (checkTimeInputValidity(document.getElementById(otherID).value, otherInput.value) == false) { // check the other time value and do nothing if the other is wrong in case it isn't filled
-        var hoursFlown = parseInt(String(document.getElementById("AArrTime").value).substring(2, 0)) - parseInt(String(document.getElementById("ADepTime").value).substring(2, 0));
-        var minutesFlown = parseInt(String(document.getElementById("AArrTime").value).substring(4, 2)) - parseInt(String(document.getElementById("ADepTime").value).substring(4, 2));
+        document.getElementById(flightTimeElement).value = "";
+        setOverlayDown($("#" + flightTimeElement));
+    } else if (checkTimeInputValidity(document.getElementById(otherID).value, otherInput.value, estimatedOrReal) == false) { // check the other time value and do nothing if the other is wrong in case it isn't filled
+        var hoursFlown = parseInt(String(document.getElementById(arrTimeElement).value).substr(0, 2)) - parseInt(String(document.getElementById(depTimeElement).value).substr(0, 2));
+        var minutesFlown = parseInt(String(document.getElementById(arrTimeElement).value).substr(2, 2)) - parseInt(String(document.getElementById(depTimeElement).value).substr(2, 2));
         if (minutesFlown < 0) { // checking in case the hours are different by one but minutes are different by a negative value (e.g. D: 0159Z, A: 0201Z)
             hoursFlown--;
             minutesFlown += 60;
         };
-        if (parseInt(document.getElementById("ADepTime").value) > parseInt(document.getElementById("AArrTime").value)) { // checks if it goes beyond 12am (i.e. D: 2359Z, A: 0001Z)
+        if (parseInt(document.getElementById(depTimeElement).value) > parseInt(document.getElementById(arrTimeElement).value)) { // checks if it goes beyond 12am (i.e. D: 2359Z, A: 0001Z)
             hoursFlown = 24 - Math.abs(hoursFlown);
         };
-        document.getElementById("FT").value = hoursFlown + "H " + minutesFlown + "M"; // sets text
+        document.getElementById(flightTimeElement).value = hoursFlown + "H " + minutesFlown + "M"; // sets text
         // css changes
-        setOverlayUp($("#FT")); // animates the placeholder
-        redToNormalBorder($("#ADepTime")); // make it normal border if it was red
-        redToNormalBorder($("#AArrTime"));
-        $("#FT").css("cursor", "text"); // changes cursor to highlightable cursor
+        setOverlayUp($("#" + flightTimeElement)); // animates the placeholder
+        redToNormalBorder($("#" + depTimeElement)); // make it normal border if it was red
+        redToNormalBorder($("#" + arrTimeElement));
+        $("#" + flightTimeElement).css("cursor", "text"); // changes cursor to highlightable cursor
+    } else {
+        document.getElementById(flightTimeElement).value = "";
+        setOverlayDown($("#" + flightTimeElement));
     };
 };
 
@@ -159,9 +178,13 @@ function clickedOutsideOrTabbed(releasedBox) {
                 };
             };
             if (lastClicked[0] == document.getElementById("ADepTime")) {
-                timeCalculator(lastClicked[0], document.getElementById("AArrTime"), "ADepTime", "AArrTime");
+                timeCalculator(lastClicked[0], document.getElementById("AArrTime"), "ADepTime", "AArrTime", 1);
             } else if (lastClicked[0] == document.getElementById("AArrTime")) {
-                timeCalculator(lastClicked[0], document.getElementById("ADepTime"), "AArrTime", "ADepTime");
+                timeCalculator(lastClicked[0], document.getElementById("ADepTime"), "AArrTime", "ADepTime", 1);
+            } else if (lastClicked[0] == document.getElementById("DepTime")) {
+                timeCalculator(lastClicked[0], document.getElementById("ArrTime"), "DepTime", "ArrTime", 0);
+            } else if (lastClicked[0] == document.getElementById("ArrTime")) {
+                timeCalculator(lastClicked[0], document.getElementById("DepTime"), "ArrTime", "DepTime", 0);
             };
         };
         lastClicked = -1;
@@ -198,7 +221,7 @@ function textboxClick(thisEventHandler, outsideClickBoolean) {
 $(document).ready(function() {
     // ANIMATIONS AND UI EFFECTS
     // event handler of hovering textboxes in new plan
-    $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").hover(
+    $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5, .inputType6").hover(
         function() {
             if ($(this).css("border") != clickedColour3 && $(this).css("border") != "2px solid " + errorColour) {
                 borderColouring($(this), clickedColourHover, 125);
@@ -211,7 +234,7 @@ $(document).ready(function() {
     );
     
     // event handler of tabbing into the next div
-    $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").on("keyup", function(e) {
+    $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5, .inputType6").on("keyup", function(e) {
         if (e.which == 9) {
             clickedOutsideOrTabbed($(this));
         };
@@ -223,11 +246,11 @@ $(document).ready(function() {
     });
     
     // event handler of clicking textboxes in new plan
-    $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").click(function() {
+    $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5, .inputType6").click(function() {
         textboxClick($(this), false);
     });
 
-    $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5").select(function() {
+    $(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5, .inputType6").select(function() {
         textboxClick($(this), true);
     });
 
@@ -293,7 +316,7 @@ $(document).ready(function() {
     // Fetch Metar Clicked
     $(".FetchMETAR").click(function() {
         clickedOutsideOrTabbed(false);
-        normalBorder($(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5"));
+        normalBorder($(".inputType1, .inputType2, .inputType3, .inputType4, .inputType5, .inputType6"));
         var Departure = document.getElementById("Departure").value;
         var Arrival = document.getElementById("Arrival").value;
         if (Departure.length >= 3 && Arrival.length >= 3) {
@@ -304,6 +327,11 @@ $(document).ready(function() {
                 document.getElementById("METARbox2").innerHTML = data["raw"];
             });
             $(".METARbox").css("cursor", "text")
+            $(".METARDep, .METARArr").animate({
+                "color": "white",
+                "marginLeft": "45px",
+                "marginTop": "-10px"
+            }, 125);
         } else {
             if (Departure.length < 3) {
                 redBorder($("#Departure"));
@@ -312,14 +340,21 @@ $(document).ready(function() {
                 redBorder($("#Arrival"));
             };
             outsideClick = false;
-        }
-    })
+            document.getElementById("METARbox1").innerHTML = "";
+            document.getElementById("METARbox2").innerHTML = "";
+            $(".METARDep, .METARArr").animate({
+                "color": "#5D5D5D",
+                "marginLeft": "55px",
+                "marginTop": "13px"
+            }, 125);
+        };
+    });
 
     // Save Plan Clicked
     $(".SavePlan").click(function() {
         clickedOutsideOrTabbed(false);
         var toExit = false;
-        var inputTypeListToCheck = ["Departure", "Arrival", "Date", "FlightNum", "Cruise", "Equipment", "Cargo", "Fuel", "DepTime", "ArrTime", "Route"];
+        var inputTypeListToCheck = ["Departure", "Arrival", "Date", "FlightNum", "Cruise", "Equipment", "Cargo", "Pax", "Fuel", "DepTime", "ArrTime", "ETE", "Route"];
         for (i = 0; i < inputTypeListToCheck.length; i++) {
             toExit = checkFilled(document.getElementById(inputTypeListToCheck[i]).value, inputTypeListToCheckValue[inputTypeListToCheck[i]][0], $("#" + inputTypeListToCheck[i]), inputTypeListToCheckValue[inputTypeListToCheck[i]][1], false);
         };

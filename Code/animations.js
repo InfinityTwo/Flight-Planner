@@ -1,8 +1,8 @@
-var sideElementNumbers = {
-    1: "-178px",
-    2: "-118px",
-    3: "-58px",
-};
+// var sideElementNumbers = {
+//     1: "-178px",
+//     2: "-118px",
+//     3: "-58px",
+// };
 var currentPageSideElement = 0; // 0 is null value, -1 is last element, 1 and onwards is as logical
 var highlightedSidenavElement = false; // false is null value
 var sidebarExpanded = false;
@@ -46,9 +46,13 @@ function sidebarExpand() {
             "borderRadius": "5px",
             "width": "5px",
             "height": "30px",
-            "marginLeft": "10px",
+            "marginLeft": "15px",
             "marginTop": "13px",
             "backgroundColor": "#00638a"
+        }, 200);
+        highlightedSidenavElement.find(".sidenavText").animate({
+            "opacity": "1",
+            "color": "white"
         }, 200);
     };
     if (currentPageSideElement == -2 || (highlightedSidenavElement != false && highlightedSidenavElement[0]["id"] == "sidenavElement-2" && highlightedSidenavElement != false)) { // basically to keep logo coloured if on home page
@@ -117,6 +121,7 @@ function sidebarCollapse() {
         "backgroundColor": "#00a3e4"
     }, 200);
     $(".sidenavText").stop().animate({ // hides text of icon
+        "color": "#5D5D5D",
         "opacity": "0"
     }, 200);
     $("#sidenavTimer").stop().animate({
@@ -131,6 +136,10 @@ function sidebarCollapse() {
     }, 200);
     $("#sidenavImages-2").stop().animate({
         "paddingLeft": "25px"
+    }, 200);
+    $("#sidenavText" + currentPageSideElement + ", #sidenavText-2").stop().animate({
+        "color": "white",
+        "opacity": "0"
     }, 200);
     highlightedSidenavElement = false;
     sidebarExpanded = false;
@@ -151,6 +160,10 @@ function checkCurrentFile() {
     };
     $("#sidenavElementInner" + String(currentPageSideElement)).css({
         "backgroundColor": "#00638a"
+    });
+    
+    $("#sidenavText" + String(currentPageSideElement)).css({
+        "color": "white"
     });
 };
 
@@ -218,6 +231,9 @@ $(document).ready(function() {
                 $(this).find(".sidenavElementInner").animate({
                     "backgroundColor": "#00638a"
                 }, 100);
+                $(this).find(".sidenavText").stop().animate({
+                    "color": "white"
+                }, 100);
                 if (sidebarExpanded != true) {
                     highlightedSidenavElement = $(this)
                 };
@@ -231,6 +247,9 @@ $(document).ready(function() {
                     "height": "30px",
                     "marginLeft": "15px",
                     "marginTop": "13px"
+                }, 100);
+                $(this).find(".sidenavText").animate({
+                    "color": "#5D5D5D"
                 }, 100);
             };
         }
