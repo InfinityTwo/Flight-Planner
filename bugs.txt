@@ -5,6 +5,7 @@
 ; vertical spacing too large, requiring scroll for bookmarks displayed and chrome canary
 ;; hovering an unselected sidenav causes the grey-blue highlight to appear to the left
 ;; airport name after icao code
+if next flight level is lesser than before by more than 3k, it should be ignored
 
 vspeeds calculator link after selecting a320
 ;; show estimated flight time
